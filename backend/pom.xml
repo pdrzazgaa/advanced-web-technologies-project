@@ -8,8 +8,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>New App</name>
-    <description>My new SpringBoot app</description>
+    <name>HowToGetTo-Backend</name>
+    <description>Spring Boot backend written for How To Get To application. [AWT at WUST]</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -53,6 +53,14 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+        <!-- API Documentation - ReDoc -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
