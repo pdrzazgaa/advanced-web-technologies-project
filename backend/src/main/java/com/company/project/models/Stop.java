@@ -1,11 +1,23 @@
-package com.company.project.graph;
+package com.company.project.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
 @Getter
 @AllArgsConstructor
-public class Node {
+@NoArgsConstructor
+@Table(name = "Stops")
+public class Stop {
+    @Id
+    @Column(name = "stop_id")
+    private Long id;
     private String name;
     private double latitude;
     private double longitude;
@@ -18,7 +30,7 @@ public class Node {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Node other = (Node) obj;
+        Stop other = (Stop) obj;
         return name.equals(other.name);
     }
 
@@ -31,5 +43,6 @@ public class Node {
     public String toString() {
         return name;
     }
+
 }
 

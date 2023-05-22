@@ -1,5 +1,7 @@
 package com.company.project.graph;
 
+import com.company.project.models.Connection;
+import com.company.project.models.Stop;
 import lombok.Getter;
 
 import java.time.Duration;
@@ -11,45 +13,45 @@ import java.util.Map;
 
 @Getter
 public class Graph {
-    private final List<Edge> edges;
-    private final Map<Node, List<Edge>> graphDict;
-    private final Map<Node, List<String>> lines;
+    private final List<Connection> connections;
+    private final Map<Stop, List<Connection>> graphDict;
+    private final Map<Stop, List<String>> lines;
 
-    public Graph(List<Edge> edges) {
-        this.edges = edges;
+    public Graph(List<Connection> connections) {
+        this.connections = connections;
         this.graphDict = new HashMap<>();
         this.lines = new HashMap<>();
 
-        for (Edge edge : this.edges) {
-            if (this.graphDict.containsKey(edge.getDepartureStop())) {
-                this.graphDict.get(edge.getDepartureStop()).add(edge);
+        for (Connection connection : this.connections) {
+            if (this.graphDict.containsKey(connection.getDepartureStop())) {
+                this.graphDict.get(connection.getDepartureStop()).add(connection);
             } else {
-                List<Edge> nodeEdges = new ArrayList<>();
-                nodeEdges.add(edge);
-                this.graphDict.put(edge.getDepartureStop(), nodeEdges);
+                List<Connection> nodeConnections = new ArrayList<>();
+                nodeConnections.add(connection);
+                this.graphDict.put(connection.getDepartureStop(), nodeConnections);
             }
 
-            if (this.lines.containsKey(edge.getDepartureStop())) {
-                List<String> nodeLines = this.lines.get(edge.getDepartureStop());
-                if (!nodeLines.contains(edge.getLine())) {
-                    nodeLines.add(edge.getLine());
+            if (this.lines.containsKey(connection.getDepartureStop())) {
+                List<String> nodeLines = this.lines.get(connection.getDepartureStop());
+                if (!nodeLines.contains(connection.getLine())) {
+                    nodeLines.add(connection.getLine());
                 }
             } else {
                 List<String> nodeLines = new ArrayList<>();
-                nodeLines.add(edge.getLine());
-                this.lines.put(edge.getDepartureStop(), nodeLines);
+                nodeLines.add(connection.getLine());
+                this.lines.put(connection.getDepartureStop(), nodeLines);
             }
 
-            if (!this.graphDict.containsKey(edge.getArrivalStop())) {
-                this.graphDict.put(edge.getArrivalStop(), new ArrayList<>());
+            if (!this.graphDict.containsKey(connection.getArrivalStop())) {
+                this.graphDict.put(connection.getArrivalStop(), new ArrayList<>());
             }
         }
     }
 
-    public Node getNode(String name) {
-        for (Node node : this.graphDict.keySet()) {
-            if (node.getName().equalsIgnoreCase(name)) {
-                return node;
+    public Stop getNode(String name) {
+        for (Stop stop : this.graphDict.keySet()) {
+            if (stop.getName().equalsIgnoreCase(name)) {
+                return stop;
             }
         }
         return null;
@@ -59,22 +61,22 @@ public class Graph {
         return this.graphDict.size();
     }
 
-    public List<Node> getNodes() {
+    public List<Stop> getNodes() {
         return new ArrayList<>(this.graphDict.keySet());
     }
 
-    public static void printPath(LocalTime startTime, List<Edge> path, double distance) {
-        Edge prevEdge = null;
+    public static void printPath(LocalTime startTime, List<Connection> path, double distance) {
+        Connection prevConnection = null;
         System.out.println("Begin your trip at " + startTime);
         System.out.println("Your stops:");
-        for (Edge edge : path) {
-            if (prevEdge != null && !prevEdge.getLine().equals(edge.getLine())) {
-                int waitingTime = (int) Duration.between(prevEdge.getArrivalTime(), edge.getDepartureTime()).toMinutes();
+        for (Connection connection : path) {
+            if (prevConnection != null && !prevConnection.getLine().equals(connection.getLine())) {
+                int waitingTime = (int) Duration.between(prevConnection.getArrivalTime(), connection.getDepartureTime()).toMinutes();
                 System.out.println("TRANSFER - wait " + waitingTime + " minutes");
             }
-            System.out.println(edge.getLine() + " | " + edge.getDepartureStop() + " [ " +
-                    edge.getDepartureTime() + " ] - " + edge.getArrivalStop() + " [ " + edge.getArrivalTime() + " ]");
-            prevEdge = edge;
+            System.out.println(connection.getLine() + " | " + connection.getDepartureStop() + " [ " +
+                    connection.getDepartureTime() + " ] - " + connection.getArrivalStop() + " [ " + connection.getArrivalTime() + " ]");
+            prevConnection = connection;
         }
         System.out.println("Time of the trip: " + (int) distance + " minutes");
     }

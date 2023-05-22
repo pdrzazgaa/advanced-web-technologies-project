@@ -1,4 +1,9 @@
-package com.company.project.entity;
+package com.company.project.models;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -6,6 +11,10 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "greetings")
 public class Greeting {
@@ -16,31 +25,7 @@ public class Greeting {
     @Column(nullable = false)
     private String name;
 
-    public Greeting() {
-    }
-
     public Greeting(String name) {
-        this.name = name;
-    }
-
-    public Greeting(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 

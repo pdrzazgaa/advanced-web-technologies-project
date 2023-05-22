@@ -1,5 +1,6 @@
 package com.company.project.graph;
 
+import com.company.project.models.Stop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class NodePair implements Comparable<NodePair> {
     private double priority;
-    private Node node;
+    private Stop stop;
 
     @Override
     public int compareTo(NodePair o) {

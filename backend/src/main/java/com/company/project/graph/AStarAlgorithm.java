@@ -1,5 +1,8 @@
 package com.company.project.graph;
 
+import com.company.project.models.Connection;
+import com.company.project.models.Stop;
+
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
@@ -13,14 +16,14 @@ public class AStarAlgorithm {
     static final String TRANSFER_MODE = "p";
     static final String MIN_TIME_MODE = "t";
 
-    public static double run(Node start, Node goal, LocalTime time, String criteria, Graph graph) {
+    public static double run(Stop start, Stop goal, LocalTime time, String criteria, Graph graph) {
         PriorityQueue<NodePair> pq = new PriorityQueue<>();
-        Map<Node, Node> prevNodes = new HashMap<>();
-        Map<Node, Edge> prevEdges = new HashMap<>();
-        Map<Node, Double> distances = new HashMap<>();
+        Map<Stop, Stop> prevNodes = new HashMap<>();
+        Map<Stop, Connection> prevEdges = new HashMap<>();
+        Map<Stop, Double> distances = new HashMap<>();
         LocalTime currTime = LocalTime.now();
-        Map<Node, LocalTime> timeOnStop = new HashMap<>();
-        Map<Node, String> lines = new HashMap<>();
+        Map<Stop, LocalTime> timeOnStop = new HashMap<>();
+        Map<Stop, String> lines = new HashMap<>();
 
         pq.add(new NodePair(0, start));
         prevNodes.put(start, null);
@@ -31,62 +34,63 @@ public class AStarAlgorithm {
 
         while (!pq.isEmpty()) {
             NodePair pair = pq.poll();
-            Node current = pair.getNode();
+            Stop current = pair.getStop();
 
             if (current.equals(goal)) {
                 break;
             }
 
-            for (Edge neighborEdge : graph.getGraphDict().get(current)) {
-                Node neighbor = neighborEdge.getArrivalStop();
-                double newCost = cost(graph, current, neighborEdge, criteria, goal, distances, timeOnStop, lines);
+            for (Connection neighborConnection : graph.getGraphDict().get(current)) {
+                Stop neighbor = neighborConnection.getArrivalStop();
+                double newCost = cost(graph, current, neighborConnection, criteria, goal, distances, timeOnStop, lines);
 
                 if (!distances.containsKey(neighbor) || newCost < distances.get(neighbor)) {
                     distances.put(neighbor, newCost);
-                    timeOnStop.put(neighbor, neighborEdge.getArrivalTime());
-                    lines.put(neighbor, neighborEdge.getLine());
+                    timeOnStop.put(neighbor, neighborConnection.getArrivalTime());
+                    lines.put(neighbor, neighborConnection.getLine());
                     pq.add(new NodePair(newCost, neighbor));
                     prevNodes.put(neighbor, current);
-                    prevEdges.put(neighbor, neighborEdge);
+                    prevEdges.put(neighbor, neighborConnection);
                 }
             }
         }
 
         double tripTime = Duration.between(prevEdges.get(goal).getArrivalTime(), currTime).toMinutes();
-        List<Edge> edges = createOutput(prevEdges, prevNodes, start, goal);
-        Graph.printPath(time, edges, tripTime);
+        List<Connection> connections = createOutput(prevEdges, prevNodes, start, goal);
+        Graph.printPath(time, connections, tripTime);
+//        #TODO Return trip, not only time (maybe something else?)
         return tripTime;
     }
 
-    private static double cost(Graph graph, Node current, Edge neighborEdge, String criteria, Node goal, Map<Node, Double> distances,
-                               Map<Node, LocalTime> timeOnStop, Map<Node, String> lines) {
-        double nCost = distances.get(current) + Math.abs((Duration.between(timeOnStop.get(current), neighborEdge.getDepartureTime()).getSeconds()) / 60.0);
-        nCost += neighborEdge.cost() + manhattanDistance(goal, neighborEdge.getArrivalStop());
+    private static double cost(Graph graph, Stop current, Connection neighborConnection, String criteria, Stop goal, Map<Stop, Double> distances,
+                               Map<Stop, LocalTime> timeOnStop, Map<Stop, String> lines) {
+        double nCost = distances.get(current) + Math.abs((Duration.between(timeOnStop.get(current), neighborConnection.getDepartureTime()).getSeconds()) / 60.0);
+        nCost += neighborConnection.cost() + manhattanDistance(goal, neighborConnection.getArrivalStop());
         if (criteria.equals(TRANSFER_MODE)) {
-            if (lines.get(current) != null && !lines.get(current).equals(neighborEdge.getLine())) {
+            if (lines.get(current) != null && !lines.get(current).equals(neighborConnection.getLine())) {
                 nCost += CHANGING_LINE_COST;
             }
-            if (!graph.getLines().get(goal).contains(neighborEdge.getLine())) {
+            if (!graph.getLines().get(goal).contains(neighborConnection.getLine())) {
                 nCost += NOT_GOAL_COST;
             }
         }
         return nCost;
     }
 
-    private static List<Edge> createOutput(Map<Node, Edge> prevEdges, Map<Node, Node> prevNodes, Node start, Node goal) {
-        List<Edge> edges = new ArrayList<>();
-        Node currentNode = goal;
-        while (!currentNode.equals(start)) {
-            if (prevEdges.get(currentNode) != null) {
-                edges.add(prevEdges.get(currentNode));
+    private static List<Connection> createOutput(Map<Stop, Connection> prevEdges, Map<Stop, Stop> prevNodes, Stop start, Stop goal) {
+        List<Connection> connections = new ArrayList<>();
+        Stop currentStop = goal;
+        while (!currentStop.equals(start)) {
+            if (prevEdges.get(currentStop) != null) {
+                connections.add(prevEdges.get(currentStop));
             }
-            currentNode = prevNodes.get(currentNode);
+            currentStop = prevNodes.get(currentStop);
         }
-        Collections.reverse(edges);
-        return edges;
+        Collections.reverse(connections);
+        return connections;
     }
 
-    private static double manhattanDistance(Node a, Node b) {
+    private static double manhattanDistance(Stop a, Stop b) {
         double latitudeDiff = Math.abs(a.getLatitude() - b.getLatitude());
         double longitudeDiff = Math.abs(a.getLongitude() - b.getLongitude());
         return (latitudeDiff + longitudeDiff) * MULTIPLIER;

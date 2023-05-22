@@ -1,6 +1,6 @@
 package com.company.project.controllers;
 
-import com.company.project.entity.Greeting;
+import com.company.project.models.Greeting;
 import com.company.project.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
