@@ -1,0 +1,11 @@
+﻿route_type2_id,route_type2_name
+30,"Normalna autobusowa"
+31,"Normalna tramwajowa"
+32,"Okresowa autobusowa"
+33,"Okresowa tramwajowa"
+34,"Podmiejska autobusowa"
+35,"Pospieszna autobusowa"
+37,"Specjalna autobusowa"
+38,"Specjalna tramwajowa"
+39,"Strefowa autobusowa"
+40,"Nocna autobusowa"

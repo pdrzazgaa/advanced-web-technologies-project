@@ -1,6 +1,7 @@
 package com.company.project.graph;
 
 import com.company.project.models.Connection;
+import com.company.project.models.Line;
 import com.company.project.models.Stop;
 import lombok.Getter;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class Graph {
     private final List<Connection> connections;
     private final Map<Stop, List<Connection>> graphDict;
-    private final Map<Stop, List<String>> lines;
+    private final Map<Stop, List<Line>> lines;
 
     public Graph(List<Connection> connections) {
         this.connections = connections;
@@ -32,12 +33,12 @@ public class Graph {
             }
 
             if (this.lines.containsKey(connection.getDepartureStop())) {
-                List<String> nodeLines = this.lines.get(connection.getDepartureStop());
+                List<Line> nodeLines = this.lines.get(connection.getDepartureStop());
                 if (!nodeLines.contains(connection.getLine())) {
                     nodeLines.add(connection.getLine());
                 }
             } else {
-                List<String> nodeLines = new ArrayList<>();
+                List<Line> nodeLines = new ArrayList<>();
                 nodeLines.add(connection.getLine());
                 this.lines.put(connection.getDepartureStop(), nodeLines);
             }

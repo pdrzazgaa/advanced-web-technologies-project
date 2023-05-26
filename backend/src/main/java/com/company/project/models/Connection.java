@@ -2,24 +2,28 @@ package com.company.project.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalTime;
 
 @Getter
 @AllArgsConstructor
-@Table(name = "Connections")
+@Entity
+@NoArgsConstructor
+@Table(name = "connections")
 public class Connection {
+    @Id
+    @GeneratedValue()
+    private long id;
     // #TODO Join column with other model
-// @JoinColumn(table = "Stops", name = "")
+    @ManyToOne()
     private Stop departureStop;
-    // #TODO Join column with other model
+    @ManyToOne()
     private Stop arrivalStop;
-    @JoinColumn(table = "Lines", name = "name")
-    private String line;
+    @ManyToOne
+    private Line line;
     @Column(name = "departure_time")
     private LocalTime departureTime;
     @Column(name = "arrival_time")

@@ -5,18 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Routes")
+@Entity
+@Table(name="routes")
 public class Route {
+    @Id
     private int id;
-    @JoinColumn(table = "Lines", name = "name")
-    private String line;
     // #TODO Join column with other model
+    @ManyToOne
+    private Line line;
+    @ManyToOne
     private Stop stop;
 }

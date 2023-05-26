@@ -23,6 +23,7 @@ create table if not exists favourite_places
 
 create table if not exists connections
 (
+    id                int primary key auto_increment,
     departure_stop_id int        not null,
     arrival_stop_id   int        not null,
     departure_time    time       not null,

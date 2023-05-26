@@ -1,6 +1,7 @@
 package com.company.project.graph;
 
 import com.company.project.models.Connection;
+import com.company.project.models.Line;
 import com.company.project.models.Stop;
 
 import java.time.Duration;
@@ -23,7 +24,7 @@ public class AStarAlgorithm {
         Map<Stop, Double> distances = new HashMap<>();
         LocalTime currTime = LocalTime.now();
         Map<Stop, LocalTime> timeOnStop = new HashMap<>();
-        Map<Stop, String> lines = new HashMap<>();
+        Map<Stop, Line> lines = new HashMap<>();
 
         pq.add(new NodePair(0, start));
         prevNodes.put(start, null);
@@ -63,7 +64,7 @@ public class AStarAlgorithm {
     }
 
     private static double cost(Graph graph, Stop current, Connection neighborConnection, String criteria, Stop goal, Map<Stop, Double> distances,
-                               Map<Stop, LocalTime> timeOnStop, Map<Stop, String> lines) {
+                               Map<Stop, LocalTime> timeOnStop, Map<Stop, Line> lines) {
         double nCost = distances.get(current) + Math.abs((Duration.between(timeOnStop.get(current), neighborConnection.getDepartureTime()).getSeconds()) / 60.0);
         nCost += neighborConnection.cost() + manhattanDistance(goal, neighborConnection.getArrivalStop());
         if (criteria.equals(TRANSFER_MODE)) {
