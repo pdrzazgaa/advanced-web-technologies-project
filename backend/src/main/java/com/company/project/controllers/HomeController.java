@@ -1,7 +1,7 @@
 package com.company.project.controllers;
 
 import com.company.project.models.Greeting;
-import com.company.project.repository.GreetingRepository;
+import com.company.project.repositories.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

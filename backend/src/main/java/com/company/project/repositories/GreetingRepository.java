@@ -1,4 +1,4 @@
-package com.company.project.repository;
+package com.company.project.repositories;
 
 import com.company.project.models.Greeting;
 import org.springframework.data.repository.CrudRepository;
