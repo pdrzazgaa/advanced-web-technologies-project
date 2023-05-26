@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name="favourite_places")
 public class FavouritePlace {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String name;
     private double latitude;
