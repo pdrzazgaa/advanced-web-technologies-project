@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 @Table(name = "greetings")
 public class Greeting {
 
