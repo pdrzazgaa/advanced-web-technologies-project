@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FavouritePlaceDoesNotExistEx extends Exception{
     public FavouritePlaceDoesNotExistEx(long id) {
         super("Favourite place does not exist. ID = " + id);
+        System.out.println("Exception - Favourite place does not exist. ID = " + id);
     }
 }

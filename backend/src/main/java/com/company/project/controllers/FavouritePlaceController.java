@@ -2,6 +2,7 @@ package com.company.project.controllers;
 
 import com.company.project.dto.FavPlaceDTO;
 import com.company.project.dto.FavPlaceIdDTO;
+import com.company.project.exceptions.BadRequestEx;
 import com.company.project.exceptions.FavouritePlaceAlreadyExistsEx;
 import com.company.project.exceptions.FavouritePlaceDoesNotExistEx;
 import com.company.project.services.FavouritePlacesService;
@@ -20,15 +21,16 @@ public class FavouritePlaceController {
     FavouritePlacesService favouritePlacesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<FavPlaceIdDTO>> getFavouritePlaces() {
+    public ResponseEntity<List<FavPlaceIdDTO>> getFavouritePlacesByClient() {
         System.out.println("... called getFavouritePlaces");
+        String clientID = "1";
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(favouritePlacesService.getFavouritePlaces());
+                .body(favouritePlacesService.getFavouritePlacesByClient(clientID));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<FavPlaceIdDTO> getFavouritePlace(@PathVariable int id) throws FavouritePlaceDoesNotExistEx {
+    public ResponseEntity<FavPlaceIdDTO> getFavouritePlace(@PathVariable long id) throws FavouritePlaceDoesNotExistEx {
         System.out.println("... called getFavouritePlace");
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -43,7 +45,8 @@ public class FavouritePlaceController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addFavouritePlace(@RequestBody FavPlaceDTO favPlaceDTO) throws FavouritePlaceAlreadyExistsEx {
+    public ResponseEntity addFavouritePlace(@RequestBody FavPlaceDTO favPlaceDTO)
+            throws FavouritePlaceAlreadyExistsEx, BadRequestEx {
         System.out.println("... called addFavouritePlace");
 //        TODO How to read clientID from SSO?
         String clientID = "1";

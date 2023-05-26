@@ -1,6 +1,7 @@
 package com.company.project.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalTime;
 
-@Getter
+@Data
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
@@ -17,7 +18,6 @@ public class Connection {
     @Id
     @GeneratedValue()
     private long id;
-    // #TODO Join column with other model
     @ManyToOne()
     private Stop departureStop;
     @ManyToOne()

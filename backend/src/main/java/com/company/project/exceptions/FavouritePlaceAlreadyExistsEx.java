@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FavouritePlaceAlreadyExistsEx extends Exception{
     public FavouritePlaceAlreadyExistsEx(String name) {
         super("Favourite place with name : '"+name+"' already exists.");
-        System.out.println("Favourite Place Already Exists Exception. Name: " + name);
+        System.out.println("Exception - Favourite place already exists. Name: " + name);
     }
 }

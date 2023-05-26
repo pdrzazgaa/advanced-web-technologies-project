@@ -59,7 +59,7 @@ public class AStarAlgorithm {
         double tripTime = Duration.between(prevEdges.get(goal).getArrivalTime(), currTime).toMinutes();
         List<Connection> connections = createOutput(prevEdges, prevNodes, start, goal);
         Graph.printPath(time, connections, tripTime);
-//        #TODO Return trip, not only time (maybe something else?)
+//        TODO Return trip, not only time (maybe something else?)
         return tripTime;
     }
 

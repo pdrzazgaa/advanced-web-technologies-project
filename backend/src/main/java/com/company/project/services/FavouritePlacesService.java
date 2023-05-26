@@ -2,6 +2,7 @@ package com.company.project.services;
 
 import com.company.project.dto.FavPlaceDTO;
 import com.company.project.dto.FavPlaceIdDTO;
+import com.company.project.exceptions.BadRequestEx;
 import com.company.project.exceptions.FavouritePlaceAlreadyExistsEx;
 import com.company.project.exceptions.FavouritePlaceDoesNotExistEx;
 import com.company.project.models.FavouritePlace;
@@ -18,9 +19,9 @@ public class FavouritePlacesService {
     @Autowired
     FavouritePlacesRepository favouritePlacesRepository;
 
-    public List<FavPlaceIdDTO> getFavouritePlaces(){
+    public List<FavPlaceIdDTO> getFavouritePlacesByClient(String clientID){
         List<FavPlaceIdDTO> favouritePlaceList = new ArrayList<>();
-        for (FavouritePlace place : favouritePlacesRepository.findAll()){
+        for (FavouritePlace place : favouritePlacesRepository.findFavouritePlaceByClientID(clientID)){
             favouritePlaceList.add(new FavPlaceIdDTO(place));
         }
         return favouritePlaceList;
@@ -37,12 +38,15 @@ public class FavouritePlacesService {
         favouritePlacesRepository.deleteById(id);
     }
 
-    public FavPlaceIdDTO addFavouritePlace(FavPlaceDTO favPlaceDTO, String clientID) throws FavouritePlaceAlreadyExistsEx {
+    public FavPlaceIdDTO addFavouritePlace(FavPlaceDTO favPlaceDTO, String clientID) throws FavouritePlaceAlreadyExistsEx, BadRequestEx {
+        if (favPlaceDTO.getName().isBlank() || favPlaceDTO.getName().isEmpty()) throw new BadRequestEx("Name field is empty or null.");
+        if (favPlaceDTO.getLatitude() < 50 || favPlaceDTO.getLatitude() > 52) throw new BadRequestEx("Invalid latitude value.");
+        if (favPlaceDTO.getLongitude() < 16 || favPlaceDTO.getLongitude() > 18) throw new BadRequestEx("Invalid longitude value.");
         if (favouritePlacesRepository.findFavouritePlaceByNameAndClientID(
                 favPlaceDTO.getName(), clientID).isPresent()) {
             throw new FavouritePlaceAlreadyExistsEx(favPlaceDTO.getName());
         } else {
-             return new FavPlaceIdDTO(favouritePlacesRepository.save(favPlaceDTO.toFavouritePlace(clientID)));
+            return new FavPlaceIdDTO(favouritePlacesRepository.save(favPlaceDTO.toFavouritePlace(clientID)));
         }
     };
 }

@@ -17,9 +17,9 @@ public class FavPlaceDTO {
 
     public FavouritePlace toFavouritePlace(String clientID){
         FavouritePlace favouritePlace = new FavouritePlace();
-        favouritePlace.setName(favouritePlace.getName());
-        favouritePlace.setLatitude(favouritePlace.getLatitude());
-        favouritePlace.setLongitude(favouritePlace.getLongitude());
+        favouritePlace.setName(this.getName());
+        favouritePlace.setLatitude(this.getLatitude());
+        favouritePlace.setLongitude(this.getLongitude());
         favouritePlace.setClientID(clientID);
         return favouritePlace;
     }
