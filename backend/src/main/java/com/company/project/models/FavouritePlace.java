@@ -2,14 +2,14 @@ package com.company.project.models;
 
 
 import lombok.*;
-
 import javax.persistence.*;
 
+
+@Entity
+@Table(name="favourite_places")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="favourite_places")
 public class FavouritePlace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
