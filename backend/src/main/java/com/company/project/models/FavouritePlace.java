@@ -1,8 +1,10 @@
 package com.company.project.models;
 
 
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity

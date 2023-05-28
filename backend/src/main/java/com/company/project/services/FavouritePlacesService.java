@@ -1,10 +1,8 @@
 package com.company.project.services;
 
-import com.company.project.dto.FavPlaceDTO;
-import com.company.project.dto.FavPlaceIdDTO;
-import com.company.project.exceptions.BadRequestEx;
-import com.company.project.exceptions.FavouritePlaceAlreadyExistsEx;
-import com.company.project.exceptions.FavouritePlaceDoesNotExistEx;
+
+import com.company.project.dto.*;
+import com.company.project.exceptions.*;
 import com.company.project.models.FavouritePlace;
 import com.company.project.repositories.FavouritePlacesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ public class FavouritePlacesService {
         return favouritePlaceList;
     }
 
-    public FavPlaceIdDTO getFavouritePlace(long id)  throws FavouritePlaceDoesNotExistEx{
+    public FavPlaceIdDTO getFavouritePlace(long id)  throws FavouritePlaceDoesNotExistEx {
         if (!favouritePlacesRepository.existsById(id)) throw new FavouritePlaceDoesNotExistEx(id);
         Optional<FavouritePlace> favouritePlace = favouritePlacesRepository.findById(id);
         return new FavPlaceIdDTO(favouritePlace.get());

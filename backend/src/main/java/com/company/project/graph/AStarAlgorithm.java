@@ -1,8 +1,7 @@
 package com.company.project.graph;
 
-import com.company.project.models.Connection;
-import com.company.project.models.Line;
-import com.company.project.models.Stop;
+
+import com.company.project.models.*;
 
 import java.time.Duration;
 import java.time.LocalTime;

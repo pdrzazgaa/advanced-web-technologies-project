@@ -1,5 +1,6 @@
 package com.company.project.dto;
 
+
 import com.company.project.models.FavouritePlace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

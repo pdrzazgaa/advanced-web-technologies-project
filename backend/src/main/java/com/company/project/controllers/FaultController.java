@@ -1,8 +1,6 @@
 package com.company.project.controllers;
 
-import com.company.project.exceptions.BadRequestEx;
-import com.company.project.exceptions.FavouritePlaceAlreadyExistsEx;
-import com.company.project.exceptions.FavouritePlaceDoesNotExistEx;
+import com.company.project.exceptions.*;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;

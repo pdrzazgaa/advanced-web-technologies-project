@@ -1,11 +1,10 @@
 package com.company.project.models;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalTime;
 

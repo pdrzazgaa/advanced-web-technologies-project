@@ -1,5 +1,6 @@
 package com.company.project.data;
 
+
 import com.company.project.models.Stop;
 import com.company.project.repositories.StopsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

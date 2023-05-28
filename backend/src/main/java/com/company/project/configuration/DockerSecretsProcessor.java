@@ -1,14 +1,14 @@
 package com.company.project.configuration;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StreamUtils;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * Read property from docker secret file.

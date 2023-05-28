@@ -1,10 +1,8 @@
 package com.company.project.controllers;
 
-import com.company.project.dto.FavPlaceDTO;
-import com.company.project.dto.FavPlaceIdDTO;
-import com.company.project.exceptions.BadRequestEx;
-import com.company.project.exceptions.FavouritePlaceAlreadyExistsEx;
-import com.company.project.exceptions.FavouritePlaceDoesNotExistEx;
+
+import com.company.project.dto.*;
+import com.company.project.exceptions.*;
 import com.company.project.services.FavouritePlacesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
