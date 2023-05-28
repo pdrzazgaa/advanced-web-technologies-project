@@ -1,2 +1,5 @@
-# Advanced-Web-Technologies-Project
-Spring + React project to make public transport easier for citizens and tourists in Wrocław (Poland).
+## React + Spring Boot + MySQL Application
+
+### Docker
+
+### Authors: Paulina Drzazga, Maria Markowiak
