@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>how-to-get-to-backend</name>
+    <name>backend</name>
     <description>how-to-get-to-backend</description>
     <properties>
         <java.version>17</java.version>
