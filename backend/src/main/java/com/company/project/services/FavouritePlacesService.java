@@ -16,6 +16,7 @@ import java.util.Optional;
 public class FavouritePlacesService {
     @Autowired
     FavouritePlacesRepository favouritePlacesRepository;
+    ValueChecker valueChecker = new ValueChecker();
 
     public List<FavPlaceIdDTO> getFavouritePlacesByClient(String clientID){
         List<FavPlaceIdDTO> favouritePlaceList = new ArrayList<>();
@@ -37,7 +38,7 @@ public class FavouritePlacesService {
     }
 
     public FavPlaceIdDTO addFavouritePlace(FavPlaceDTO favPlaceDTO, String clientID) throws FavouritePlaceAlreadyExistsEx, BadRequestEx {
-        if (favPlaceDTO.getName().isBlank() || favPlaceDTO.getName().isEmpty()) throw new BadRequestEx("Name field is empty or null.");
+        if (valueChecker.isStringNotCorrect(favPlaceDTO.getName())) throw new BadRequestEx("Name field is empty or null.");
         if (favPlaceDTO.getLatitude() < 50 || favPlaceDTO.getLatitude() > 52) throw new BadRequestEx("Invalid latitude value.");
         if (favPlaceDTO.getLongitude() < 16 || favPlaceDTO.getLongitude() > 18) throw new BadRequestEx("Invalid longitude value.");
         if (favouritePlacesRepository.findFavouritePlaceByNameAndClientID(

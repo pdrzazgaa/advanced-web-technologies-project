@@ -17,15 +17,14 @@ public class FaultController {
     @ResponseBody
     @ExceptionHandler(FavouritePlaceDoesNotExistEx.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    ResponseEntity PNFEHandler(FavouritePlaceDoesNotExistEx ex) {
+    ResponseEntity FPDNEHandler(FavouritePlaceDoesNotExistEx ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
                 .body(Problem.create()
                         .withStatus(HttpStatus.NOT_FOUND)
                         .withTitle(HttpStatus.NOT_FOUND.name())
-                        .withDetail("The person of ID = " +
-                                ex.getMessage() + " DOES NOT EXISTS"));
+                        .withDetail(ex.getMessage()));
     }
 
     @ResponseBody
@@ -44,7 +43,20 @@ public class FaultController {
     @ResponseBody
     @ExceptionHandler(FavouritePlaceAlreadyExistsEx.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    ResponseEntity PAEHandler(FavouritePlaceAlreadyExistsEx ex) {
+    ResponseEntity FPAEHandler(FavouritePlaceAlreadyExistsEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.CONFLICT)
+                        .withTitle(HttpStatus.CONFLICT.name())
+                        .withDetail(ex.getMessage()));
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UserAlreadyExistsEx.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    ResponseEntity UAEHandler(UserAlreadyExistsEx ex) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
