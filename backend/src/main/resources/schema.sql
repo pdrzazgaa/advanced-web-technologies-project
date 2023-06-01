@@ -12,13 +12,21 @@ create table if not exists stops
     longitude float       not null
 );
 
+create table if not exists users
+(
+    user_id varchar(50) primary key,
+    firstname varchar(40) not null,
+    lastname varchar(40) not null
+);
+
 create table if not exists favourite_places
 (
     id        int primary key auto_increment,
     name      varchar(30) not null,
     latitude  float       not null,
     longitude float       not null,
-    client_id varchar(50) not null
+    user_id varchar(50) not null,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 create table if not exists connections
@@ -34,7 +42,7 @@ create table if not exists connections
     FOREIGN KEY (line) REFERENCES mpk_lines (name)
 );
 
-create table if not exists Routes
+create table if not exists routes
 (
     line varchar(5) not null,
     stop int        not null,
@@ -42,3 +50,4 @@ create table if not exists Routes
     FOREIGN KEY (stop) REFERENCES stops (stop_id),
     FOREIGN KEY (line) REFERENCES mpk_lines (name)
 );
+
