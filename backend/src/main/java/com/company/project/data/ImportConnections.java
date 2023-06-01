@@ -21,7 +21,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.importFiles();
+//        this.importFiles();
     }
 
     @Override
