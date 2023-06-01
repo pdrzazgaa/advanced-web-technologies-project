@@ -69,7 +69,7 @@ public class ImportLine implements Importable, CommandLineRunner {
     //    40,"Nocna autobusowa"
 
 
-    private LineType getLineType(int index){
+    public static LineType getLineType(int index){
         switch (index){
             case 30 ->{
                 return LineType.normal_bus;

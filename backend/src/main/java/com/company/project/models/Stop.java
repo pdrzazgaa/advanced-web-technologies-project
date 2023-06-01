@@ -21,6 +21,12 @@ public class Stop {
     private double latitude;
     private double longitude;
 
+    public Stop(String name, double latitude, double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

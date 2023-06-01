@@ -28,6 +28,14 @@ public class Connection {
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
+    public Connection(Stop departureStop, Stop arrivalStop, Line line, LocalTime departureTime, LocalTime arrivalTime) {
+        this.departureStop = departureStop;
+        this.arrivalStop = arrivalStop;
+        this.line = line;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+    }
+
     public double cost() {
         if (arrivalTime == null || departureTime == null) {
             return 0;
