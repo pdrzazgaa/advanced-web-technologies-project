@@ -9,25 +9,17 @@ services:
       - db-host
     ports:
       - 8080:8080
-    networks:
-      - react-spring
-      - spring-mysql
   frontend:
     build:
       context: frontend
       target: development
     ports:
-      - 3000:3000
+      - "${FRONTEND_PORT}:3000"
+    env_file:
+      - .env
     volumes:
       - ./frontend/src:/code/src
       - /project/node_modules
-    networks:
-      - react-spring
-    depends_on:
-      - backend
-    expose:
-      - 3306
-      - 33060
 secrets:
   db-password:
     file: db/password.txt
@@ -39,9 +31,7 @@ secrets:
     file: db/host.txt
 volumes:
   db-data: {}
-networks:
-  react-spring: {}
-  spring-mysql: {}
+
 
 # services:
 #   backend:

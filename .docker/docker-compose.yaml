@@ -12,10 +12,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 8080:8080
-    networks:
-      - react-spring
-      - spring-mysql
+      - "${FRONTEND_PORT}:3000"
+    env_file:
+      - .env
+
   frontend:
     build:
       context: frontend
@@ -24,13 +24,7 @@ services:
       - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - react-spring
-    depends_on:
-      - backend
-    expose:
-      - 3306
-      - 33060
+
 secrets:
   db-password:
     file: db/password.txt
@@ -42,45 +36,3 @@ secrets:
     file: db/host.txt
 volumes:
   db-data: {}
-networks:
-  react-spring: {}
-  spring-mysql: {}
-
-# services:
-#   backend:
-#     build:
-#       context: backend
-#       target: dev-envs
-#     restart: always
-#     secrets:
-#       - db-password
-#       - db-user
-#       - db-database
-#       - db-host
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#     ports:
-#       - 8080:8080
-
-#   frontend:
-#     build:
-#       context: frontend
-#       target: dev-envs
-#     ports:
-#       - "${FRONTEND_PORT}:5173"
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#     env_file:
-#       - .env
-
-# secrets:
-#   db-password:
-#     file: db/password.txt
-#   db-user:
-#     file: db/user.txt
-#   db-database:
-#     file: db/database.txt
-#   db-host:
-#     file: db/host.txt
-# volumes:
-#   db-data: {}

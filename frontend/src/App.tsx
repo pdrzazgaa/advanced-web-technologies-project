@@ -2,14 +2,13 @@ import React, { FC } from "react";
 import axios from "axios";
 
 const App: FC = () => {
+  const baseURL = process.env.REACT_APP_API_URL as string;
   axios
-    .get("http:localhost:8000/places")
+    .get(`${baseURL}/favourite-places`)
     .then(response => {
-      // Handle the successful response here
       console.log(response.data);
     })
     .catch(error => {
-      // Handle errors here
       console.error(error);
     });
 
