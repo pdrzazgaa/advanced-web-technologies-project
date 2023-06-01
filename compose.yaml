@@ -42,3 +42,40 @@ volumes:
 networks:
   react-spring: {}
   spring-mysql: {}
+
+# services:
+#   backend:
+#     build: backend
+#     restart: always
+#     secrets:
+#       - db-password
+#       - db-user
+#       - db-database
+#       - db-host
+#     ports:
+#       - 8080:8080
+
+#   frontend:
+#     build:
+#       context: frontend
+#       target: development
+#     ports:
+#       - "${FRONTEND_PORT}:5173"
+#     volumes:
+#       - ./frontend/src:/code/src
+#       - /project/node_modules
+#     env_file:
+#       - .env
+
+# secrets:
+#   db-password:
+#     file: db/password.txt
+#   db-user:
+#     file: db/user.txt
+#   db-database:
+#     file: db/database.txt
+#   db-host:
+#     file: db/host.txt
+
+# volumes:
+#   db-data: {}
