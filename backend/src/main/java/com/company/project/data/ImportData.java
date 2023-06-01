@@ -7,8 +7,6 @@ import java.io.FileReader;
 import java.util.List;
 
 public class ImportData {
-    private static final String TRIPS_FILENAME = "trips.txt";
-    private static final String STOP_TIMES_FILENAME = "stop_times.txt";
 
     public static List<String[]> readAllDataAtOnce(String file)
     {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
-@RequestMapping("/places")
+@RequestMapping("/favourite_places")
 @RestController
 public class FavouritePlaceController {
     @Autowired
