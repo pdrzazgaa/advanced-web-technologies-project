@@ -23,7 +23,8 @@ public class ImportStop implements Importable, CommandLineRunner {
     private StopsRepository stopsRepository;
     @Override
     public void run(String... args) throws Exception {
-        this.importFiles();
+//        Note: Stops are taken from connection graph file.
+//        this.importFiles();
     }
 
     @Override

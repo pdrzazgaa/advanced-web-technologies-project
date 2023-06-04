@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -28,6 +29,7 @@ public class ImportLine implements Importable, CommandLineRunner {
 
     @Override
     public boolean sendToSQL(List<String[]> data) {
+        List<Line> lines = new ArrayList<>();
         for (String[] row: data){
             try{
                 int line_type_id = Integer.parseInt(row[LINE_TYPE_INDEX]);
@@ -35,13 +37,14 @@ public class ImportLine implements Importable, CommandLineRunner {
                 Line newLine = new Line(
                         row[ROUTE_ID_INDEX],
                         vehicleType);
-                linesRepository.save(newLine);
+                lines.add(newLine);
             } catch (Exception ex){
-                System.out.println("Exception during parsing data [Stops]");
+                System.out.println("Exception during parsing data [Lines]");
                 System.out.println(ex.getMessage());
                 return false;
             }
         }
+        linesRepository.saveAll(lines);
         return true;
     }
 

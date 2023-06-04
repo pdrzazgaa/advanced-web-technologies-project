@@ -6,7 +6,7 @@ create table if not exists mpk_lines
 
 create table if not exists stops
 (
-    stop_id   int primary key,
+    stop_id   int primary key auto_increment,
     name      varchar(50) not null,
     latitude  float       not null,
     longitude float       not null

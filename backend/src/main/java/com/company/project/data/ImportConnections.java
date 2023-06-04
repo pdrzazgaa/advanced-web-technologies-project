@@ -1,9 +1,10 @@
 package com.company.project.data;
 
-import com.company.project.enums.LineType;
+import com.company.project.exceptions.NoLineEx;
 import com.company.project.models.*;
 import com.company.project.repositories.ConnectionsRepository;
 import com.company.project.repositories.LinesRepository;
+import com.company.project.repositories.StopsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -30,46 +31,20 @@ public class ImportConnections implements Importable, CommandLineRunner {
     ConnectionsRepository connectionsRepository;
     @Autowired
     LinesRepository linesRepository;
+    @Autowired
+    StopsRepository stopsRepository;
 
     @Override
     public void run(String... args) throws Exception {
-//        this.importFiles();
+        this.importFiles();
     }
 
-    /*
-    if not startStopName in dictNodes.keys():
-    nodeStart = Node(startStopName,
-                     float(row[START_STOP_LAT_INDEX]),
-    float(row[START_STOP_LON_INDEX])
-                    )
-    dictNodes[startStopName] = nodeStart
-            else:
-    nodeStart = dictNodes[startStopName]
-
-            if not endStopName in dictNodes.keys():
-    nodeStop = Node(endStopName,
-                    float(row[END_STOP_LAT_INDEX]),
-    float(row[END_STOP_LON_INDEX])
-                    )
-    dictNodes[endStopName] = nodeStop
-            else:
-    nodeStop = dictNodes[endStopName]
-
-            edges.append(
-    Edge(
-            nodeStart,
-            nodeStop,
-            str(row[LINE_INDEX]),
-                    datetime.strptime(str(row[DEPARTURE_TIME_INDEX]), "%H:%M:%S"),
-            datetime.strptime(str(row[ARRIVAL_TIME_INDEX]), "%H:%M:%S")
-            )
-
-*/
     @Override
     public boolean sendToSQL(List<String[]> data) {
         Map<String, Stop> stops = new HashMap<>();
         List<Connection> connections = new ArrayList<>();
         List<Line> lines = new ArrayList<>();
+        linesRepository.findAll().forEach(lines::add);
         for (String[] row: data){
             try{
                 String line = row[LINE_INDEX];
@@ -80,7 +55,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 double departStopLat = Double.parseDouble(row[DEPARTURE_STOP_LAT_INDEX]);
                 double departStopLong = Double.parseDouble(row[DEPARTURE_STOP_LONG_INDEX]);
                 double arrivalStopLat = Double.parseDouble(row[ARRIVAL_STOP_LAT_INDEX]);
-                double arrivalStopLong = Double.parseDouble(row[ARRIVAL_STOP_LAT_INDEX]);
+                double arrivalStopLong = Double.parseDouble(row[ARRIVAL_STOP_LONG_INDEX]);
 
                 Stop departureStop;
                 Stop arrivalStop;
@@ -91,18 +66,17 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 } else {
                     departureStop = stops.get(departStopName);
                 }
-                if (!stops.containsKey(departStopName)) {
+                if (!stops.containsKey(arrivalStopName)) {
                     arrivalStop = new Stop(arrivalStopName, arrivalStopLat, arrivalStopLong);
                     stops.put(arrivalStopName, arrivalStop);
                 } else {
                     arrivalStop = stops.get(arrivalStopName);
                 }
-                Optional<Line> optionalLine = linesRepository.findById(line);
+                Optional<Line> optionalLine = lines.stream().filter(l -> l.getName().equals(line)).findAny();
                 if (optionalLine.isPresent())
                     connections.add(new Connection(departureStop, arrivalStop, optionalLine.get(), departTime, arrivalTime));
                 else
-//                    TODO Make exception
-                    throw new Exception();
+                    throw new NoLineEx(line);
 
             } catch (Exception ex){
                 System.out.println("Exception during parsing data [Connection Graph]");
@@ -110,6 +84,8 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 return false;
             }
         }
+        stopsRepository.saveAll(stops.values());
+        connectionsRepository.saveAll(connections);
         return true;
     }
 

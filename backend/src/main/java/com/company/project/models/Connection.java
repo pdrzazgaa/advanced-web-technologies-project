@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Table(name = "connections")
 public class Connection {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne()
     private Stop departureStop;
