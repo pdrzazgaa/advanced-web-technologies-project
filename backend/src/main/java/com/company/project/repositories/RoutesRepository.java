@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoutesRepository extends CrudRepository<Route, Long> {
+    Iterable<Route> findAllByLine_Name(String lineName);
 }

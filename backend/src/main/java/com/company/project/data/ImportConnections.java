@@ -1,6 +1,6 @@
 package com.company.project.data;
 
-import com.company.project.exceptions.NoLineEx;
+import com.company.project.exceptions.LineDoesNotExistEx;
 import com.company.project.models.*;
 import com.company.project.repositories.ConnectionsRepository;
 import com.company.project.repositories.LinesRepository;
@@ -36,7 +36,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        this.importFiles();
+        this.importFiles();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 if (optionalLine.isPresent())
                     connections.add(new Connection(departureStop, arrivalStop, optionalLine.get(), departTime, arrivalTime));
                 else
-                    throw new NoLineEx(line);
+                    throw new LineDoesNotExistEx(line);
 
             } catch (Exception ex){
                 System.out.println("Exception during parsing data [Connection Graph]");
@@ -84,8 +84,11 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 return false;
             }
         }
-        stopsRepository.saveAll(stops.values());
-        connectionsRepository.saveAll(connections);
+        if (stopsRepository.count() == 0)
+            stopsRepository.saveAll(stops.values());
+        else
+            System.out.println("Data already in database [Stops]");
+//        connectionsRepository.saveAll(connections);
         return true;
     }
 

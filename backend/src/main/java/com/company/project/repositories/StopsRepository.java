@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StopsRepository extends CrudRepository<Stop, Long> {
+     Iterable<Stop> findStopsByNameContainsIgnoreCase(String nameFilter);
 }

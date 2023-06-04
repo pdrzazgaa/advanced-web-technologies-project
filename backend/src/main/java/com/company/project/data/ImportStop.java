@@ -31,7 +31,7 @@ public class ImportStop implements Importable, CommandLineRunner {
     public boolean importFiles(){
         // If database is not empty, we don't send any data
         if (stopsRepository.count() > 0) {
-            System.out.println("Data already in database [STOPS]");
+            System.out.println("Data already in database [ALL STOPS]");
             return true;
         }
         List<String[]> data = ImportData.readAllDataAtOnce(STOPS_FILENAME);

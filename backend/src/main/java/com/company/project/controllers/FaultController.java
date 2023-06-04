@@ -65,4 +65,17 @@ public class FaultController {
                         .withTitle(HttpStatus.CONFLICT.name())
                         .withDetail(ex.getMessage()));
     }
+
+    @ResponseBody
+    @ExceptionHandler(LineDoesNotExistEx.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    ResponseEntity NLEHandler(LineDoesNotExistEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.NOT_FOUND)
+                        .withTitle(HttpStatus.NOT_FOUND.name())
+                        .withDetail(ex.getMessage()));
+    }
 }

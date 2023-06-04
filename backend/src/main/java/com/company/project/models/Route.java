@@ -16,9 +16,10 @@ import lombok.NoArgsConstructor;
 public class Route {
     @Id
     private int id;
-    // #TODO Join column with other model
+    private int orderIndex;
     @ManyToOne
     private Line line;
     @ManyToOne
     private Stop stop;
+
 }
