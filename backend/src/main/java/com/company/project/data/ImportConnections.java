@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -84,9 +85,10 @@ public class ImportConnections implements Importable, CommandLineRunner {
                 return false;
             }
         }
-        if (stopsRepository.count() == 0)
+        if (stopsRepository.count() == 0) {
             stopsRepository.saveAll(stops.values());
-        else
+            System.out.println("Inserted stops into database");
+        } else
             System.out.println("Data already in database [Stops]");
 //        connectionsRepository.saveAll(connections);
         return true;
