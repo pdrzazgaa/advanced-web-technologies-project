@@ -19,6 +19,7 @@ public class FavouritePlace {
     private String name;
     private double latitude;
     private double longitude;
+    private String address;
     @Column(name = "user_id")
-    private String clientID;
+    private String userID;
 }
