@@ -6,7 +6,6 @@ import com.company.project.exceptions.StopDoesNotFoundEx;
 import com.company.project.graph.*;
 import com.company.project.models.Stop;
 import com.company.project.repositories.ConnectionsRepository;
-import com.company.project.repositories.StopsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class ConnectionsService {
                                                double destinationLong, LocalTime departureTime, String mode)
                                                 throws StopDoesNotFoundEx {
         List<ConnectionRouteDTO> connectionRouteDTOList = new ArrayList<>();
-        List<ConnectionProjection> connectionDBs = connectionsRepository.getConnectionByDepartureTimeInFourHours(departureTime.toString());
+        List<ConnectionProjection> connectionDBs = connectionsRepository.getConnectionByDepartureTimeInTwoHours(departureTime.toString());
         Graph graphAI = new Graph(connectionDBs);
         Stop sourceStop = stopsService.findNearestStop(sourceLat, sourceLong);
         Stop destinationStop = stopsService.findNearestStop(destinationLat, destinationLong);;

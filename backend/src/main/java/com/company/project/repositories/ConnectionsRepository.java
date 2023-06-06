@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -19,19 +18,9 @@ public interface ConnectionsRepository extends CrudRepository<Connection, Long> 
                     "        from connections as c\n" +
                     "        join stops a on c.arrival_stop_stop_id = a.stop_id\n" +
                     "        join stops d on d.stop_id = c.departure_stop_stop_id\n" +
-                    "                where TIME(DATE_ADD(TIME(?1), INTERVAL 4 HOUR)) > c.departure_time\n" +
+                    "                where TIME(DATE_ADD(TIME(?1), INTERVAL 2 HOUR)) > c.departure_time\n" +
                     "                  and c.departure_time > TIME(?1);"
             , nativeQuery = true)
-    List<ConnectionProjection> getConnectionByDepartureTimeInFourHours(String departureTime);
+    List<ConnectionProjection> getConnectionByDepartureTimeInTwoHours(String departureTime);
 
-    @Query(value =
-            """
-                    select *\s
-                            from connections as c
-                            join stops a on c.arrival_stop_stop_id = a.stop_id
-                            join stops d on d.stop_id = c.departure_stop_stop_id
-                                    where TIME(DATE_ADD(TIME(?1), INTERVAL 4 HOUR)) > c.departure_time
-                                      and c.departure_time > TIME(?1);"""
-            , nativeQuery = true)
-    List<Connection> getConnectionInFourHours(String departureTime);
 }
