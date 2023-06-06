@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StopsService {
@@ -24,5 +25,9 @@ public class StopsService {
             ));
         });
         return stopDTOList;
+    }
+
+    public Stop findNearestStop(double latitude, double longitude){
+       return null;
     }
 }

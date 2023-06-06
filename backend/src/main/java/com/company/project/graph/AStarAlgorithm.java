@@ -13,8 +13,8 @@ public class AStarAlgorithm {
     private static final double MULTIPLIER = DEGREE_FOR_KM * 5;
     private static final int CHANGING_LINE_COST = 30;
     private static final int NOT_GOAL_COST = 30;
-    static final String TRANSFER_MODE = "p";
-    static final String MIN_TIME_MODE = "t";
+    static final String TRANSFER_MODE = "opt";
+    static final String MIN_TIME_MODE = "fast";
 
     public static double run(Stop start, Stop goal, LocalTime time, String criteria, Graph graph) {
         PriorityQueue<NodePair> pq = new PriorityQueue<>();
