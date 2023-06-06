@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface FavouritePlacesRepository extends CrudRepository<FavouritePlace, Long> {
-    Optional<FavouritePlace> findFavouritePlaceByNameAndClientID(String name, String clientID);
-    Iterable<FavouritePlace> findFavouritePlaceByClientID(String clientID);
+    Optional<FavouritePlace> findFavouritePlaceByNameAndUserID(String name, String userID);
+    Iterable<FavouritePlace> findFavouritePlaceByUserID(String userID);
 }
