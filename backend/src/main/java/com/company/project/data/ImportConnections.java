@@ -79,7 +79,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
                     throw new LineDoesNotExistEx(line);
 
             } catch (Exception ex){
-                System.out.println("Exception during parsing data [Connection Graph]");
+                System.out.println("Exception during parsing data [ConnectionDTO Graph]");
                 System.out.println(ex.getMessage());
                 return false;
             }
@@ -89,6 +89,7 @@ public class ImportConnections implements Importable, CommandLineRunner {
             System.out.println("Inserted stops into database");
         } else
             System.out.println("Data already in database [Stops]");
+//        Not used - connections breaks
 //        connectionsRepository.saveAll(connections);
         return true;
     }
