@@ -21,7 +21,7 @@ public class AStarAlgorithm {
         Map<Stop, Stop> prevNodes = new HashMap<>();
         Map<Stop, Connection> prevEdges = new HashMap<>();
         Map<Stop, Double> distances = new HashMap<>();
-        LocalTime currTime = LocalTime.now();
+        LocalTime currTime = time;
         Map<Stop, LocalTime> timeOnStop = new HashMap<>();
         Map<Stop, Line> lines = new HashMap<>();
 
@@ -44,13 +44,21 @@ public class AStarAlgorithm {
                 Stop neighbor = neighborConnection.getArrivalStop();
                 double newCost = cost(graph, current, neighborConnection, criteria, goal, distances, timeOnStop, lines);
 
-                if (!distances.containsKey(neighbor) || newCost < distances.get(neighbor)) {
+                if (!distances.containsKey(neighbor)) {
                     distances.put(neighbor, newCost);
                     timeOnStop.put(neighbor, neighborConnection.getArrivalTime());
                     lines.put(neighbor, neighborConnection.getLine());
                     pq.add(new NodePair(newCost, neighbor));
                     prevNodes.put(neighbor, current);
                     prevEdges.put(neighbor, neighborConnection);
+                }
+                if (newCost < distances.get(neighbor)){
+                    distances.replace(neighbor, newCost);
+                    timeOnStop.replace(neighbor, neighborConnection.getArrivalTime());
+                    lines.replace(neighbor, neighborConnection.getLine());
+                    pq.add(new NodePair(newCost, neighbor));
+                    prevNodes.replace(neighbor, current);
+                    prevEdges.replace(neighbor, neighborConnection);
                 }
             }
         }
@@ -64,7 +72,7 @@ public class AStarAlgorithm {
 
     private static double cost(Graph graph, Stop current, Connection neighborConnection, String criteria, Stop goal, Map<Stop, Double> distances,
                                Map<Stop, LocalTime> timeOnStop, Map<Stop, Line> lines) {
-        double nCost = distances.get(current) + Math.abs((Duration.between(timeOnStop.get(current), neighborConnection.getDepartureTime()).getSeconds()) / 60.0);
+        double nCost = distances.get(current) + (Duration.between(timeOnStop.get(current), neighborConnection.getDepartureTime()).getSeconds() / 60.0);
         nCost += neighborConnection.cost() + manhattanDistance(goal, neighborConnection.getArrivalStop());
         if (criteria.equals(TRANSFER_MODE)) {
             if (lines.get(current) != null && !lines.get(current).equals(neighborConnection.getLine())) {

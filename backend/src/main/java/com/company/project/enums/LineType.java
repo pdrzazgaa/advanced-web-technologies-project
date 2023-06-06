@@ -20,4 +20,17 @@ public enum LineType {
         else
             return TRAM;
     }
+
+    public static LineType getSimpleType(String name){
+        try {
+            int tramLine = Integer.parseInt(name);
+            if (tramLine < 90){
+                return normal_tram;
+            } else {
+                return normal_bus;
+            }
+        } catch (Exception ex) {
+            return normal_bus;
+        }
+    }
 }

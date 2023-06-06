@@ -1,6 +1,7 @@
 package com.company.project.controllers;
 
 import com.company.project.dto.ConnectionProjection;
+import com.company.project.exceptions.StopDoesNotFoundEx;
 import com.company.project.services.ConnectionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,8 @@ public class ConnectionController {
     @RequestMapping(value = "/connection", method = RequestMethod.GET)
     public ResponseEntity<List<ConnectionProjection>> getBestConnections(@RequestParam double sourceLat, @RequestParam double sourceLong,
                                                                          @RequestParam double destinationLat, @RequestParam double destinationLong,
-                                                                         @RequestParam LocalTime departureTime, @RequestParam String mode){
+                                                                         @RequestParam LocalTime departureTime, @RequestParam String mode)
+            throws StopDoesNotFoundEx {
         List<ConnectionProjection> best4Connections = connectionsService.getBestConnections(
                 sourceLat, sourceLong, destinationLat, destinationLong, departureTime, mode
         );

@@ -78,4 +78,16 @@ public class FaultController {
                         .withTitle(HttpStatus.NOT_FOUND.name())
                         .withDetail(ex.getMessage()));
     }
+    @ResponseBody
+    @ExceptionHandler(StopDoesNotFoundEx.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    ResponseEntity SDNFHandler(StopDoesNotFoundEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.NOT_FOUND)
+                        .withTitle(HttpStatus.NOT_FOUND.name())
+                        .withDetail(ex.getMessage()));
+    }
 }

@@ -23,7 +23,7 @@ public class Line {
 
     public Line(String name){
         this.name = name;
-        this.type = LineType.valueOf(name);
+        this.type = LineType.getSimpleType(name);
     }
 
     @Override

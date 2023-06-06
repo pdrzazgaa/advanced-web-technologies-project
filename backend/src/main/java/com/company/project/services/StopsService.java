@@ -1,6 +1,7 @@
 package com.company.project.services;
 
 import com.company.project.dto.StopDTO;
+import com.company.project.exceptions.StopDoesNotFoundEx;
 import com.company.project.models.Stop;
 import com.company.project.repositories.StopsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,11 @@ public class StopsService {
         return stopDTOList;
     }
 
-    public Stop findNearestStop(double latitude, double longitude){
-       return null;
+    public Stop findNearestStop(double latitude, double longitude) throws StopDoesNotFoundEx{
+        Optional<Stop> optStop = stopsRepository.findNearestStop(latitude, longitude);
+        if (optStop.isPresent())
+            return optStop.get();
+        else
+            throw new StopDoesNotFoundEx(latitude, longitude);
     }
 }
