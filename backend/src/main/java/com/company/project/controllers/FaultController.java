@@ -90,4 +90,16 @@ public class FaultController {
                         .withTitle(HttpStatus.NOT_FOUND.name())
                         .withDetail(ex.getMessage()));
     }
+    @ResponseBody
+    @ExceptionHandler(IllegalModeEx.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    ResponseEntity IMEHandler(IllegalModeEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.BAD_REQUEST)
+                        .withTitle(HttpStatus.BAD_REQUEST.name())
+                        .withDetail(ex.getMessage()));
+    }
 }

@@ -2,6 +2,7 @@ package com.company.project.services;
 
 import com.company.project.dto.ConnectionProjection;
 import com.company.project.dto.ConnectionRouteDTO;
+import com.company.project.exceptions.IllegalModeEx;
 import com.company.project.exceptions.StopDoesNotFoundEx;
 import com.company.project.graph.*;
 import com.company.project.models.Stop;
@@ -24,7 +25,8 @@ public class ConnectionsService {
 
     public List<ConnectionProjection> getBestConnections(double sourceLat, double sourceLong, double destinationLat,
                                                double destinationLong, LocalTime departureTime, String mode)
-                                                throws StopDoesNotFoundEx {
+                                                throws StopDoesNotFoundEx, IllegalModeEx {
+        if (!mode.equals(FAST_MODE) && !mode.equals(OPTIMAL_MODE)) throw new IllegalModeEx();
         List<ConnectionRouteDTO> connectionRouteDTOList = new ArrayList<>();
         List<ConnectionProjection> connectionDBs = connectionsRepository.getConnectionByDepartureTimeInTwoHours(departureTime.toString());
         Graph graphAI = new Graph(connectionDBs);
