@@ -1,8 +1,16 @@
-spring:
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            clientId: ${client-id}
+#            clientSecret: ${client-secret}
+
+application:
   security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: ${client-id}
-            clientSecret: ${client-secret}
+    jwt:
+      secret-key: ${client-secret}
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days

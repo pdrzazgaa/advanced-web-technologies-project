@@ -21,7 +21,8 @@ public class FavPlaceDTO {
         favouritePlace.setName(this.getName());
         favouritePlace.setLatitude(this.getLatitude());
         favouritePlace.setLongitude(this.getLongitude());
-        favouritePlace.setUserID(clientID);
+//        TODO
+//        favouritePlace.setUserID(clientID);
         favouritePlace.setAddress(this.getAddress());
         return favouritePlace;
     }
