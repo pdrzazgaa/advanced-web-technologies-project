@@ -1,18 +1,23 @@
+import theme from "./theme";
+import { ThemeProvider } from "@emotion/react";
+import { CssBaseline, Box } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { FC } from "react";
-import axios from "axios";
+import { Outlet } from "react-router-dom";
+
+const queryClient = new QueryClient();
 
 const App: FC = () => {
-  const baseURL = process.env.REACT_APP_API_URL as string;
-  axios
-    .get(`${baseURL}/favourite-places`)
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-
-  return <div>front działa</div>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box sx={{ height: "100vh", width: "100vw" }}>
+          <Outlet />
+        </Box>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
 };
 
 export default App;
