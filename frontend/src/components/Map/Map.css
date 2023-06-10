@@ -4,6 +4,7 @@
   background-color: rgb(221, 224, 216);
 }
 
-/* .leaflet-bar {
-  display: none;
-} */
+.leaflet-left {
+    left: calc(100vw - 60px);
+}
+

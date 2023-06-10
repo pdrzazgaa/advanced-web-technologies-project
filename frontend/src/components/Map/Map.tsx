@@ -1,7 +1,8 @@
-import "./Map.css";
 import "leaflet/dist/leaflet.css";
+import "./Map.css";
 import React, { FC } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Popup } from "react-leaflet";
+import LocationMarker from "./LocationMarker";
 
 const Map: FC = () => {
   return (
@@ -10,11 +11,11 @@ const Map: FC = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.107883, 17.038538]}>
+      <LocationMarker position={[51.107883, 17.038538]}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
-      </Marker>
+      </LocationMarker>
     </MapContainer>
   );
 };
