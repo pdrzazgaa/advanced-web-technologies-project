@@ -1,10 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Stack, Paper, Typography } from "@mui/material";
 import Searchbar from "./Searchbar";
 import BottomBar from "./BottomBar";
 import PersonIcon from "@mui/icons-material/Person";
+import { SearchParams } from "../../types/SearchParams";
 
 const UserPanel: FC = () => {
+  const [searchParams, setSearchParams] = useState<SearchParams>({
+    departure: null,
+    arrival: null,
+    time: new Date(),
+    mode: "opt",
+  });
+
   return (
     <Paper
       sx={{
@@ -22,9 +30,9 @@ const UserPanel: FC = () => {
           <Typography variant="h2" align="center" ml="34px" sx={{ flexGrow: 1 }}>
             HowToGetTo
           </Typography>
-          <PersonIcon sx={{ fontSize: 34 }} />
+          <PersonIcon sx={{ fontSize: 46 }} />
         </Stack>
-        <Searchbar />
+        <Searchbar setSearchParams={setSearchParams} />
         <BottomBar />
       </Stack>
     </Paper>
