@@ -1,7 +1,7 @@
-import { divIcon } from "leaflet";
-import { Marker } from "react-leaflet";
-import React, { FC, ReactNode } from "react";
 import { useLocation } from "../../contexts";
+import { divIcon } from "leaflet";
+import React, { FC, ReactNode } from "react";
+import { Marker } from "react-leaflet";
 
 const LocationMarker: FC<{ children: ReactNode }> = ({ children }) => {
   const { position } = useLocation();

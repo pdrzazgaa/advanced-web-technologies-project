@@ -1,12 +1,10 @@
-import "leaflet/dist/leaflet.css";
 import "./Map.css";
-import React, { FC } from "react";
 import { Button } from "@mui/material";
-    
+import "leaflet/dist/leaflet.css";
+import React, { FC } from "react";
+
 const LocationButton: FC = () => {
-  return (
-    <Button></Button>
-  );
+  return <Button></Button>;
 };
 
 export default LocationButton;

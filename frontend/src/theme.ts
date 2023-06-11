@@ -28,7 +28,7 @@ declare module "@mui/material/styles" {
 let theme = createTheme({
   palette: {
     background: {
-      default: "#ecf0f1",
+      default: "#fff",
       paper: "#172B5F",
     },
     text: {
@@ -48,11 +48,6 @@ let theme = createTheme({
     yellow: {
       main: "#EEC73D",
     },
-    action: {
-      hover: "rgb(0, 0, 0 , 0.06)",
-      focus: "rgb(0, 0, 0, 0.06)",
-      selectedOpacity: 0.12,
-    },
   },
 });
 
@@ -61,15 +56,15 @@ theme = createTheme(theme, {
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: 4,
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: 4,
+          backgroundColor: theme.palette.background.default,
+          borderRadius: 6,
         },
       },
     },

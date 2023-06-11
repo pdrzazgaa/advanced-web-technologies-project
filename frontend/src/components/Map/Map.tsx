@@ -1,9 +1,9 @@
-import "leaflet/dist/leaflet.css";
+import { useLocation } from "../../contexts";
+import LocationMarker from "./LocationMarker";
 import "./Map.css";
+import "leaflet/dist/leaflet.css";
 import React, { FC } from "react";
 import { MapContainer, TileLayer, Popup } from "react-leaflet";
-import LocationMarker from "./LocationMarker";
-import { useLocation } from "../../contexts";
 
 const Map: FC = () => {
   const { position } = useLocation();

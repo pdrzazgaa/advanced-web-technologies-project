@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { useContext, useState, ReactNode } from "react";
 import { LatLngExpression } from "leaflet";
+import React, { useContext, useState, ReactNode } from "react";
 
 interface LocationProviderProps {
   children: ReactNode;

@@ -1,8 +1,12 @@
+import { Typography, Stack } from "@mui/material";
 import React, { FC } from "react";
-import { Typography } from "@mui/material";
 
 const BottomBar: FC = () => {
-  return <Typography>bottom bar</Typography>;
+  return (
+    <Stack px={4}>
+      <Typography>bottom bar</Typography>
+    </Stack>
+  );
 };
 
 export default BottomBar;
