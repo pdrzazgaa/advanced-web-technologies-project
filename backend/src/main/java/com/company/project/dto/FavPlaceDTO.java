@@ -14,13 +14,15 @@ public class FavPlaceDTO {
     private String name;
     private double latitude;
     private double longitude;
+    private String address;
 
     public FavouritePlace toFavouritePlace(String clientID){
         FavouritePlace favouritePlace = new FavouritePlace();
         favouritePlace.setName(this.getName());
         favouritePlace.setLatitude(this.getLatitude());
         favouritePlace.setLongitude(this.getLongitude());
-        favouritePlace.setClientID(clientID);
+        favouritePlace.setUserID(clientID);
+        favouritePlace.setAddress(this.getAddress());
         return favouritePlace;
     }
 }

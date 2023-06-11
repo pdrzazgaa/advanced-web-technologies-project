@@ -23,14 +23,15 @@ public class ImportStop implements Importable, CommandLineRunner {
     private StopsRepository stopsRepository;
     @Override
     public void run(String... args) throws Exception {
-        this.importFiles();
+//        Note: Stops are taken from connection graph file.
+//        this.importFiles();
     }
 
     @Override
     public boolean importFiles(){
         // If database is not empty, we don't send any data
         if (stopsRepository.count() > 0) {
-            System.out.println("Data already in database [STOPS]");
+            System.out.println("Data already in database [ALL STOPS]");
             return true;
         }
         List<String[]> data = ImportData.readAllDataAtOnce(STOPS_FILENAME);

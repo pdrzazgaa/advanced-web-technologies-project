@@ -16,11 +16,13 @@ public class FavPlaceIdDTO {
     private String name;
     private double latitude;
     private double longitude;
+    private String address;
 
     public FavPlaceIdDTO(FavouritePlace place){
         id = place.getId();
         name = place.getName();
         latitude = place.getLatitude();
         longitude = place.getLongitude();
+        address = place.getAddress();
     }
 }
