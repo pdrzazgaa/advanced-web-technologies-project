@@ -1,8 +1,11 @@
 import { divIcon } from "leaflet";
-import { Marker, MarkerProps } from "react-leaflet";
-import React, { FC } from "react";
+import { Marker } from "react-leaflet";
+import React, { FC, ReactNode } from "react";
+import { useLocation } from "../../contexts";
 
-const LocationMarker: FC<MarkerProps> = (props) => {
+const LocationMarker: FC<{ children: ReactNode }> = ({ children }) => {
+  const { position } = useLocation();
+
   const pinIcon = divIcon({
     html: `
     <svg width="36" height="52" viewBox="0 0 36 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="location-marker__svg">
@@ -14,7 +17,11 @@ const LocationMarker: FC<MarkerProps> = (props) => {
     iconAnchor: [18, 52],
   });
 
-  return <Marker icon={pinIcon} {...props} />;
+  return (
+    <Marker icon={pinIcon} position={position}>
+      {children}
+    </Marker>
+  );
 };
 
 export default LocationMarker;
