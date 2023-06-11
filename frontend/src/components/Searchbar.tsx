@@ -1,5 +1,5 @@
-import { Mode } from "../../types/Mode";
-import { SearchParams } from "../../types/SearchParams";
+import { Mode } from "../types/Mode";
+import { SearchParams } from "../types/SearchParams";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Grid, TextField, IconButton, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";

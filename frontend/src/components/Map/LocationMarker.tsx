@@ -3,7 +3,7 @@ import { divIcon } from "leaflet";
 import React, { FC, ReactNode } from "react";
 import { Marker } from "react-leaflet";
 
-const LocationMarker: FC<{ children: ReactNode }> = ({ children }) => {
+const LocationMarker: FC<{ children?: ReactNode }> = ({ children }) => {
   const { position } = useLocation();
 
   const pinIcon = divIcon({
