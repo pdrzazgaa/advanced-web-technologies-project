@@ -29,11 +29,11 @@ let theme = createTheme({
   palette: {
     background: {
       default: "#ecf0f1",
-      paper: "#fff",
+      paper: "#172B5F",
     },
     text: {
-      primary: "#000",
-      secondary: "#fff",
+      primary: "#fff",
+      secondary: "#000",
       disabled: "#aaa",
     },
     primary: {
@@ -77,19 +77,19 @@ theme = createTheme(theme, {
       styleOverrides: {
         h1: {
           fontWeight: "700",
-          fontSize: "64px",
+          fontSize: "28px",
         },
         h2: {
           fontWeight: "700",
-          fontSize: "36px",
+          fontSize: "25px",
         },
         h3: {
           fontWeight: "700",
-          fontSize: "24px",
+          fontSize: "22px",
         },
         h4: {
           fontWeight: "400",
-          fontSize: "18px",
+          fontSize: "20px",
         },
         body1: {
           fontWeight: "400",

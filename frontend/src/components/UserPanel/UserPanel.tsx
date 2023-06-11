@@ -1,20 +1,34 @@
-import { Stack } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
+import { Stack, Paper, Typography } from "@mui/material";
+import Searchbar from "./Searchbar";
+import BottomBar from "./BottomBar";
+import PersonIcon from "@mui/icons-material/Person";
 
-export default function UserPanel() {
+const UserPanel: FC = () => {
   return (
-    <Stack
+    <Paper
       sx={{
         zIndex: 9999,
-        height: "200px",
-        width: "150px",
-        backgroundColor: "grey",
+        height: "90vh",
+        width: "30vw",
         position: "absolute",
-        left: "500px",
-        top: "500px",
+        left: "50px",
+        top: "5vh",
+        borderRadius: "20px",
       }}
     >
-      UserPanel
-    </Stack>
+      <Stack spacing={4} p={4}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography variant="h2" align="center" ml="34px" sx={{ flexGrow: 1 }}>
+            HowToGetTo
+          </Typography>
+          <PersonIcon sx={{ fontSize: 34 }} />
+        </Stack>
+        <Searchbar />
+        <BottomBar />
+      </Stack>
+    </Paper>
   );
-}
+};
+
+export default UserPanel;
