@@ -1,6 +1,7 @@
 package com.company.project.graph;
 
 
+import com.company.project.dto.ConnectionProjection;
 import com.company.project.models.*;
 import lombok.Getter;
 
@@ -17,12 +18,20 @@ public class Graph {
     private final Map<Stop, List<Connection>> graphDict;
     private final Map<Stop, List<Line>> lines;
 
-    public Graph(List<Connection> connections) {
-        this.connections = connections;
+    public Graph(List<ConnectionProjection> connectionProjections) {
+        this.connections = new ArrayList<>();
         this.graphDict = new HashMap<>();
         this.lines = new HashMap<>();
 
-        for (Connection connection : this.connections) {
+        for (ConnectionProjection connectionProjection : connectionProjections) {
+            Stop arrivalStop = new Stop(connectionProjection.getArrival_name(),
+                    connectionProjection.getArrival_lat(), connectionProjection.getArrival_long());
+            Stop departureStop = new Stop(connectionProjection.getDeparture_name(),
+                    connectionProjection.getDeparture_lat(), connectionProjection.getDeparture_lat());
+            Connection connection = new Connection(departureStop, arrivalStop,
+                    new Line(connectionProjection.getLine()), connectionProjection.getDeparture_time(),
+                    connectionProjection.getArrival_time());
+
             if (this.graphDict.containsKey(connection.getDepartureStop())) {
                 this.graphDict.get(connection.getDepartureStop()).add(connection);
             } else {

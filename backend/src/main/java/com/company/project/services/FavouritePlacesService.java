@@ -20,7 +20,7 @@ public class FavouritePlacesService {
 
     public List<FavPlaceIdDTO> getFavouritePlacesByClient(String clientID){
         List<FavPlaceIdDTO> favouritePlaceList = new ArrayList<>();
-        for (FavouritePlace place : favouritePlacesRepository.findFavouritePlaceByClientID(clientID)){
+        for (FavouritePlace place : favouritePlacesRepository.findFavouritePlaceByUserID(clientID)){
             favouritePlaceList.add(new FavPlaceIdDTO(place));
         }
         return favouritePlaceList;
@@ -41,7 +41,7 @@ public class FavouritePlacesService {
         if (valueChecker.isStringNotCorrect(favPlaceDTO.getName())) throw new BadRequestEx("Name field is empty or null.");
         if (favPlaceDTO.getLatitude() < 50 || favPlaceDTO.getLatitude() > 52) throw new BadRequestEx("Invalid latitude value.");
         if (favPlaceDTO.getLongitude() < 16 || favPlaceDTO.getLongitude() > 18) throw new BadRequestEx("Invalid longitude value.");
-        if (favouritePlacesRepository.findFavouritePlaceByNameAndClientID(
+        if (favouritePlacesRepository.findFavouritePlaceByNameAndUserID(
                 favPlaceDTO.getName(), clientID).isPresent()) {
             throw new FavouritePlaceAlreadyExistsEx(favPlaceDTO.getName());
         } else {

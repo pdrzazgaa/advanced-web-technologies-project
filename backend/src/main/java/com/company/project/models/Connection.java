@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalTime;
 
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 @Table(name = "connections")
 public class Connection {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne()
     private Stop departureStop;
@@ -27,6 +28,14 @@ public class Connection {
     private LocalTime departureTime;
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
+
+    public Connection(Stop departureStop, Stop arrivalStop, Line line, LocalTime departureTime, LocalTime arrivalTime) {
+        this.departureStop = departureStop;
+        this.arrivalStop = arrivalStop;
+        this.line = line;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+    }
 
     public double cost() {
         if (arrivalTime == null || departureTime == null) {
