@@ -41,6 +41,7 @@ let theme = createTheme({
     },
     green: {
       main: "#64C05C",
+      dark: "#488c42",
     },
     blue: {
       main: "#2A7AB4",
@@ -57,6 +58,10 @@ theme = createTheme(theme, {
       styleOverrides: {
         root: {
           borderRadius: 4,
+          color: "#aaa", // Default color
+          "&.Mui-selected, &:hover,  &:focus,  &:active": {
+            color: "white", // Color when active or on hover
+          },
         },
       },
     },
