@@ -31,5 +31,6 @@ public class ConnectionController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(best4Connections);
+
     }
 }

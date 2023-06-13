@@ -90,6 +90,7 @@ public class FaultController {
                         .withTitle(HttpStatus.NOT_FOUND.name())
                         .withDetail(ex.getMessage()));
     }
+
     @ResponseBody
     @ExceptionHandler(IllegalModeEx.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
