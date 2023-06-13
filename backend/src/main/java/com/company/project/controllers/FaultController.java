@@ -90,4 +90,30 @@ public class FaultController {
                         .withTitle(HttpStatus.NOT_FOUND.name())
                         .withDetail(ex.getMessage()));
     }
+
+    @ResponseBody
+    @ExceptionHandler(IllegalModeEx.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    ResponseEntity IMEHandler(IllegalModeEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.BAD_REQUEST)
+                        .withTitle(HttpStatus.BAD_REQUEST.name())
+                        .withDetail(ex.getMessage()));
+    }
+
+    @ResponseBody
+    @ExceptionHandler(NoDataEx.class)
+    @ResponseStatus(value = HttpStatus.NOT_IMPLEMENTED)
+    ResponseEntity IMEHandler(NoDataEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_IMPLEMENTED)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.NOT_IMPLEMENTED)
+                        .withTitle(HttpStatus.NOT_IMPLEMENTED.name())
+                        .withDetail(ex.getMessage()));
+    }
 }

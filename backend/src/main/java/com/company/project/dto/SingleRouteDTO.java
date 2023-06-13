@@ -7,7 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class SingleRouteDTO {
     private int index;
-    private String name;
+    private String stopName;
+    private String line;
     private double latitude;
     private double longitude;
 }
