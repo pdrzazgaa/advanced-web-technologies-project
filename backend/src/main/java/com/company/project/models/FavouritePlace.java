@@ -1,7 +1,6 @@
 package com.company.project.models;
 
 
-import com.company.project.security.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class FavouritePlace {
     private double latitude;
     private double longitude;
     private String address;
-    @Column(name = "user_id")
-    @JoinColumn(name = "user_id")
-    private User userID;
+//    @Column(name = "user_id")
+//    @JoinColumn(name = "user_id")
+    private String userID;
 }
