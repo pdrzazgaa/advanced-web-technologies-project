@@ -18,7 +18,7 @@ public class AStarAlgorithm {
     static final String TRANSFER_MODE = "opt";
     static final String MIN_TIME_MODE = "fast";
 
-    public static double run(Stop start, Stop goal, LocalTime time, String criteria, Graph graph) {
+    public static List<Connection> run(Stop start, Stop goal, LocalTime time, String criteria, Graph graph) {
         PriorityQueue<NodePair> pq = new PriorityQueue<>();
         Map<Stop, Stop> prevNodes = new HashMap<>();
         Map<Stop, Connection> prevEdges = new HashMap<>();
@@ -70,8 +70,7 @@ public class AStarAlgorithm {
         double tripTime = abs(Duration.between(prevEdges.get(goal).getArrivalTime(), currTime).toMinutes());
         List<Connection> connections = createOutput(prevEdges, prevNodes, start, goal);
         Graph.printPath(time, connections, tripTime);
-//        TODO Return trip, not only time (maybe something else?)
-        return tripTime;
+        return connections;
     }
 
     private static double cost(Graph graph, Stop current, Connection neighborConnection, String criteria, Stop goal, Map<Stop, Double> distances,

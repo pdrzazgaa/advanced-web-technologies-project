@@ -12,6 +12,6 @@ public class NodePair implements Comparable<NodePair> {
 
     @Override
     public int compareTo(NodePair o) {
-        return (int)(o.priority - this.priority);
+        return (int)(this.priority - o.priority);
     }
 }

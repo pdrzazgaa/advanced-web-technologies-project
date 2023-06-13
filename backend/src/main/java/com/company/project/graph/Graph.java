@@ -54,15 +54,6 @@ public class Graph {
         }
     }
 
-    public Stop getNode(String name) {
-        for (Stop stop : this.graphDict.keySet()) {
-            if (stop.getName().equalsIgnoreCase(name)) {
-                return stop;
-            }
-        }
-        return null;
-    }
-
     public static List<Connection> getFutureConnections(LocalTime time, List<Connection> allConnections){
         List<Connection> futureConnections = new ArrayList<>();
 
@@ -70,21 +61,8 @@ public class Graph {
             if (!connection.getDepartureTime().isBefore(time))
                 futureConnections.add(connection);
         }
-        futureConnections.sort(new Comparator<Connection>() {
-            @Override
-            public int compare(Connection o1, Connection o2) {
-                return (int)Duration.between(o2.getDepartureTime(), o1.getDepartureTime()).toMinutes();
-            }
-        });
+        futureConnections.sort((o1, o2) -> (int)Duration.between(o2.getDepartureTime(), o1.getDepartureTime()).toMinutes());
         return futureConnections;
-    }
-
-    public int countNodes() {
-        return this.graphDict.size();
-    }
-
-    public List<Stop> getNodes() {
-        return new ArrayList<>(this.graphDict.keySet());
     }
 
     public static void printPath(LocalTime startTime, List<Connection> path, double distance) {
