@@ -7,10 +7,7 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class Graph {
@@ -57,21 +54,15 @@ public class Graph {
         }
     }
 
-    public Stop getNode(String name) {
-        for (Stop stop : this.graphDict.keySet()) {
-            if (stop.getName().equalsIgnoreCase(name)) {
-                return stop;
-            }
+    public static List<Connection> getFutureConnections(LocalTime time, List<Connection> allConnections){
+        List<Connection> futureConnections = new ArrayList<>();
+
+        for (Connection connection : allConnections) {
+            if (!connection.getDepartureTime().isBefore(time))
+                futureConnections.add(connection);
         }
-        return null;
-    }
-
-    public int countNodes() {
-        return this.graphDict.size();
-    }
-
-    public List<Stop> getNodes() {
-        return new ArrayList<>(this.graphDict.keySet());
+        futureConnections.sort((o1, o2) -> (int)Duration.between(o2.getDepartureTime(), o1.getDepartureTime()).toMinutes());
+        return futureConnections;
     }
 
     public static void printPath(LocalTime startTime, List<Connection> path, double distance) {
