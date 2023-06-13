@@ -14,7 +14,7 @@ const SearchRoute: FC = () => {
   });
 
   return (
-    <Stack spacing={2} py={4} display="flex" flexDirection="column" height="100%">
+    <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
       <Stack direction="row" alignItems="center" justifyContent="space-between" px={4} mb={2}>
         <Typography variant="h2" align="center" ml="34px" sx={{ flexGrow: 1 }}>
           HowToGetTo

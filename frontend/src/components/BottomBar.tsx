@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 const BottomBar: FC<{ activeButton: "route" | "timetable" }> = ({ activeButton }) => {
   const bottomBarItems = [
     {
-      icon: <ExpandCircleDownIcon sx={{ transform: "rotate(-90deg)", fontSize: 60 }} />,
+      icon: <ExpandCircleDownIcon sx={{ transform: "rotate(-90deg)", fontSize: 50 }} />,
       label: "Trasa",
       path: "/wroclaw/trasa",
       value: "route",
     },
     {
-      icon: <ListAltIcon sx={{ fontSize: 60 }} />,
+      icon: <ListAltIcon sx={{ fontSize: 50 }} />,
       label: "Rozkłady",
       path: "/wroclaw/rozklady",
       value: "timetable",
@@ -21,7 +21,7 @@ const BottomBar: FC<{ activeButton: "route" | "timetable" }> = ({ activeButton }
   ];
 
   return (
-    <Grid container gap={4} justifyContent="center">
+    <Grid container gap={4} justifyContent="center" pb={2}>
       {bottomBarItems.map(({ icon, label, path, value }) => (
         <Grid item key={value} sx={{ textAlign: "center" }}>
           <ListItemButton component={Link} to={path} selected={activeButton === value}>
