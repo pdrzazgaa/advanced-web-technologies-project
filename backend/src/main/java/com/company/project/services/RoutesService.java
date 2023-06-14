@@ -2,6 +2,7 @@ package com.company.project.services;
 
 import com.company.project.dto.SingleRouteDTO;
 import com.company.project.exceptions.LineDoesNotExistEx;
+import com.company.project.exceptions.NoDataEx;
 import com.company.project.models.Route;
 import com.company.project.repositories.LinesRepository;
 import com.company.project.repositories.RoutesRepository;
@@ -17,18 +18,20 @@ public class RoutesService {
     RoutesRepository routesRepository;
     @Autowired
     LinesRepository linesRepository;
-    public List<SingleRouteDTO> getRoute(String line) throws LineDoesNotExistEx {
+    public List<SingleRouteDTO> getRoute(String line) throws LineDoesNotExistEx, NoDataEx {
         if (!linesRepository.existsById(line)) throw new LineDoesNotExistEx(line);
         Iterable<Route> routes = routesRepository.findAllByLine_Name(line);
         List<SingleRouteDTO> routeDTOList = new ArrayList<>();
         routes.forEach(route -> {
             routeDTOList.add(new SingleRouteDTO(
                     route.getOrderIndex(),
+                    route.getStop().getName(),
                     route.getLine().getName(),
                     route.getStop().getLatitude(),
                     route.getStop().getLongitude()
             ));
         });
+        if (routeDTOList.size() == 0) throw new NoDataEx(line);
         return routeDTOList;
     }
 }
