@@ -1,9 +1,10 @@
-import { Stack, Typography, Box } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import BottomBar from "../../components/BottomBar";
 import Searchbar from "./Searchbar";
 import { SearchParams } from "../../types/SearchParams";
-import PersonIcon from "@mui/icons-material/Person";
+import GoogleAuthButton from "../../components/GoogleAuthButton";
+import UserAvatar from "../../components/UserAvatar";
 
 const SearchRoute: FC = () => {
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -16,10 +17,11 @@ const SearchRoute: FC = () => {
   return (
     <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
       <Stack direction="row" alignItems="center" justifyContent="space-between" px={4} mb={2}>
-        <Typography variant="h2" align="center" ml="34px" sx={{ flexGrow: 1 }}>
+        <Typography variant="h2" align="left" sx={{ flexGrow: 1 }}>
           HowToGetTo
         </Typography>
-        <PersonIcon sx={{ fontSize: 46 }} />
+        <GoogleAuthButton />
+        <UserAvatar />
       </Stack>
       <Searchbar setSearchParams={setSearchParams} />
       <BottomBar activeButton="route" />

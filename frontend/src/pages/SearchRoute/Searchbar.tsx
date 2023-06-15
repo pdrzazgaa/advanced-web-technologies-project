@@ -18,19 +18,32 @@ import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { GeoLocationApi } from "../../api/GeoLocationApi";
 import { useLocation } from "../../contexts";
 import { Address } from "../../types/Address";
+import { debounce } from "@mui/material/utils";
+
+const sources = [
+  { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
+  { name: "Wrocław, 3", lat: 51.14, lon: 17.01 },
+  { name: "Wrocław, 4", lat: 51.15, lon: 17.01 },
+  { name: "Wrocław, 5", lat: 51.16, lon: 17.01 },
+  { name: "Wrocław, 6", lat: 51.17, lon: 17.01 },
+];
 
 interface SearchbarProps {
   setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>;
 }
 const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
-  const [source, setSource] = useState<Address | null>(null);
+  const [source, setSource] = useState<Address | null>(sources[1]);
   const [sourceInput, setSourceInput] = useState("");
   const [destinationInput, setDestinationInput] = useState("");
   const [destination, setDestination] = useState<Address | null>(null);
   const [time, setTime] = useState<Date | null>(new Date());
   const [mode, setMode] = useState<Mode>("fast");
+  const [options, setOption] = useState<Address[]>(sources);
+
   const adapter = new AdapterDayjs();
+
   const { position } = useLocation();
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSearchParams({
@@ -49,14 +62,6 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
 
   const isValidForm = () => source && destination && time && time.toString() !== "Invalid Date";
 
-  const sources = [
-    { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-    { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-    { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-    { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-    { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-  ];
-
   const sourcesNames = () => sources.map((source) => source.name);
 
   return (
@@ -66,11 +71,13 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
           <Grid container spacing={2} px={4}>
             <Grid item xs={12}>
               <Autocomplete
-                value={source ? source.name : null}
-                onChange={(_e, address: string | null) => setSource(sources[0])}
+                value={source}
+                onChange={(_e, _address) => setSource(sources[0])}
                 onInputChange={(_e, address: string) => searchAdressess(address)}
                 inputValue={sourceInput}
-                options={["deqw", "Dsa", "Dsa", "Dsa"]}
+                noOptionsText="No locations"
+                options={options}
+                getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -80,11 +87,11 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                     autoComplete="off"
                     InputProps={{
                       sx: { color: "text.secondary" },
-                      endAdornment: (
-                        <IconButton onClick={() => setSource(sources[0])}>
-                          <LocationOnIcon sx={{ fontSize: "30px", color: "green.main" }} />
-                        </IconButton>
-                      ),
+                      // endAdornment: (
+                      //   <IconButton onClick={() => setSource(sources[0])}>
+                      //     <LocationOnIcon sx={{ fontSize: "30px", color: "green.main" }} />
+                      //   </IconButton>
+                      // ),
                     }}
                     InputLabelProps={{
                       sx: {
@@ -122,7 +129,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
               /> */}
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              {/* <TextField
                 label="Dokąd jedziemy"
                 fullWidth
                 variant="outlined"
@@ -139,7 +146,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                     borderRadius: 1,
                   },
                 }}
-              />
+              /> */}
             </Grid>
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
