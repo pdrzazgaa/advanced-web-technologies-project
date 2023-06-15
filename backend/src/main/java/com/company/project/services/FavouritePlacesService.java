@@ -40,5 +40,5 @@ public class FavouritePlacesService {
         } else {
             return new FavPlaceIdDTO(favouritePlacesRepository.save(favPlaceDTO.toFavouritePlace(clientID)));
         }
-    };
+    }
 }

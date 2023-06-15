@@ -64,7 +64,8 @@ public class FavouritePlaceController {
         } catch (Exception e){
             throw new IllegalUserTypeEx();
         }
-        favouritePlacesService.addFavouritePlace(favPlaceDTO, userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        FavPlaceIdDTO favPlaceIdDTO = favouritePlacesService.addFavouritePlace(favPlaceDTO, userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(favPlaceIdDTO);
     }
 }
