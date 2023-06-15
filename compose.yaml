@@ -7,6 +7,8 @@ services:
       - db-user
       - db-database
       - db-host
+      - client-id
+      - client-secret
     ports:
       - 8080:8080
   frontend:
@@ -29,6 +31,10 @@ secrets:
     file: db/database.txt
   db-host:
     file: db/host.txt
+  client-id:
+    file: sso/client-id.txt
+  client-secret:
+    file: sso/client-secret.txt
 volumes:
   db-data: {}
 
