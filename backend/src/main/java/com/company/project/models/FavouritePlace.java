@@ -20,7 +20,5 @@ public class FavouritePlace {
     private double latitude;
     private double longitude;
     private String address;
-//    @Column(name = "user_id")
-//    @JoinColumn(name = "user_id")
     private String userID;
 }

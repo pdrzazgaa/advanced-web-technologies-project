@@ -5,14 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -31,17 +28,16 @@ public class WebSecurityConfiguration {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         GoogleTokenFilter googleTokenFilter = new GoogleTokenFilter(googleAuthService);
-//        http.cors().and()
-//                .csrf().disable();
-//
-//        http.authorizeRequests()
-//                .anyRequest().permitAll();
-//
-//        http.addFilterBefore(googleTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(filterChainExceptionHandler, GoogleTokenFilter.class)
-//                .sessionManagement().sessionCreationPolicy(STATELESS);
-//
-//        http.headers().frameOptions().disable();
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(googleTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterChainExceptionHandler, GoogleTokenFilter.class)
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(GET, "/favourite-places").authenticated()
+                        .requestMatchers(POST, "/favourite-places").authenticated()
+                        .requestMatchers(DELETE, "/favourite-places/*").authenticated()
+                        .anyRequest().permitAll());
+
         return http.build();
 
     }

@@ -16,4 +16,8 @@ public class GoogleUser {
                 payload.getEmail()
         );
     }
+
+    public String getUserId() {
+        return userId;
+    }
 }
