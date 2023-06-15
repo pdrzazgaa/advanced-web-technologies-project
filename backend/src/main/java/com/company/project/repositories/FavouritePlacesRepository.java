@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface FavouritePlacesRepository extends CrudRepository<FavouritePlace, Long> {
     Optional<FavouritePlace> findFavouritePlaceByNameAndUserID(String name, String userID);
     Iterable<FavouritePlace> findFavouritePlaceByUserID(String userID);
+    boolean existsFavouritePlaceByIdAndUserID(long id, String userId);
 }

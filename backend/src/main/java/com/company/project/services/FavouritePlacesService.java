@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FavouritePlacesService {
@@ -26,14 +25,8 @@ public class FavouritePlacesService {
         return favouritePlaceList;
     }
 
-    public FavPlaceIdDTO getFavouritePlace(long id)  throws FavouritePlaceDoesNotExistEx {
-        if (!favouritePlacesRepository.existsById(id)) throw new FavouritePlaceDoesNotExistEx(id);
-        Optional<FavouritePlace> favouritePlace = favouritePlacesRepository.findById(id);
-        return new FavPlaceIdDTO(favouritePlace.get());
-    }
-
-    public void deleteFavouritePlace(long id) throws FavouritePlaceDoesNotExistEx {
-        if (!favouritePlacesRepository.existsById(id)) throw new FavouritePlaceDoesNotExistEx(id);
+    public void deleteFavouritePlace(long id, String userId) throws FavouritePlaceDoesNotExistEx {
+        if (!favouritePlacesRepository.existsFavouritePlaceByIdAndUserID(id, userId)) throw new FavouritePlaceDoesNotExistEx(id);
         favouritePlacesRepository.deleteById(id);
     }
 
@@ -47,5 +40,5 @@ public class FavouritePlacesService {
         } else {
             return new FavPlaceIdDTO(favouritePlacesRepository.save(favPlaceDTO.toFavouritePlace(clientID)));
         }
-    };
+    }
 }

@@ -3,10 +3,13 @@ package com.company.project.controllers;
 
 import com.company.project.dto.*;
 import com.company.project.exceptions.*;
+import com.company.project.security.GoogleUser;
 import com.company.project.services.FavouritePlacesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,36 +22,50 @@ public class FavouritePlaceController {
     FavouritePlacesService favouritePlacesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<FavPlaceIdDTO>> getFavouritePlacesByClient() {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<FavPlaceIdDTO>> getFavouritePlacesByClient(Authentication authentication) throws IllegalUserTypeEx {
         System.out.println("... called getFavouritePlaces");
-        String clientID = "1";
+        String userId;
+        try {
+            GoogleUser user = (GoogleUser) authentication.getPrincipal();
+            userId = user.getUserId();
+        } catch (Exception e){
+            throw new IllegalUserTypeEx();
+        }
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(favouritePlacesService.getFavouritePlacesByClient(clientID));
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<FavPlaceIdDTO> getFavouritePlace(@PathVariable long id) throws FavouritePlaceDoesNotExistEx {
-        System.out.println("... called getFavouritePlace");
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(favouritePlacesService.getFavouritePlace(id));
+                .body(favouritePlacesService.getFavouritePlacesByClient(userId));
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity deleteFavouritePlace(@PathVariable long id) throws FavouritePlaceDoesNotExistEx {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity deleteFavouritePlace(Authentication authentication, @PathVariable long id) throws FavouritePlaceDoesNotExistEx, IllegalUserTypeEx {
         System.out.println("... called deleteFavouritePlace");
-        favouritePlacesService.deleteFavouritePlace(id);
+        String userId;
+        try {
+            GoogleUser user = (GoogleUser) authentication.getPrincipal();
+            userId = user.getUserId();
+        } catch (Exception e){
+            throw new IllegalUserTypeEx();
+        }
+        favouritePlacesService.deleteFavouritePlace(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addFavouritePlace(@RequestBody FavPlaceDTO favPlaceDTO)
-            throws FavouritePlaceAlreadyExistsEx, BadRequestEx {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity addFavouritePlace(Authentication authentication, @RequestBody FavPlaceDTO favPlaceDTO)
+            throws FavouritePlaceAlreadyExistsEx, BadRequestEx, IllegalUserTypeEx {
         System.out.println("... called addFavouritePlace");
-//        TODO How to read clientID from SSO?
-        String clientID = "1";
-        favouritePlacesService.addFavouritePlace(favPlaceDTO, clientID);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        String userId;
+        try {
+            GoogleUser user = (GoogleUser) authentication.getPrincipal();
+            userId = user.getUserId();
+        } catch (Exception e){
+            throw new IllegalUserTypeEx();
+        }
+        FavPlaceIdDTO favPlaceIdDTO = favouritePlacesService.addFavouritePlace(favPlaceDTO, userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(favPlaceIdDTO);
     }
 }

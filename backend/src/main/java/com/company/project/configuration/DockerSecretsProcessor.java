@@ -53,5 +53,25 @@ public class DockerSecretsProcessor implements EnvironmentPostProcessor {
 				throw new RuntimeException(e);
 			}
 		}
+
+//		SSO OAuth2 + Google
+		Resource ssoClientID = new FileSystemResource("/run/secrets/client-id");
+		if (resourceHost.exists() && System.getProperty("client-id") == null) {
+			try {
+				String clientID= StreamUtils.copyToString(ssoClientID.getInputStream(), Charset.defaultCharset());
+				System.setProperty("client-id", clientID);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		Resource ssoClientSecret = new FileSystemResource("/run/secrets/client-secret");
+		if (resourceHost.exists() && System.getProperty("client-secret") == null) {
+			try {
+				String clientSecret= StreamUtils.copyToString(ssoClientSecret.getInputStream(), Charset.defaultCharset());
+				System.setProperty("client-secret", clientSecret);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }
