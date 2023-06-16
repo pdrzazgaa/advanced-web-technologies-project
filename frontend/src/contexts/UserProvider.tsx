@@ -20,7 +20,7 @@ declare global {
   }
 }
 
-const CLIENT_ID = "1041308792303-l9dj3bgmb5pgolf52ods8uet3n6jnp7s.apps.googleusercontent.com";
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
 export const UserContext = React.createContext<UserContextValue | null>(null);
 
@@ -29,11 +29,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [token, setToken] = useState("");
 
   const signInCallback = (res: any) => {
-    console.log("sadsadsa");
     setToken(res.credential);
     const userObject = jwtDecode(res.credential);
     setUser(userObject as unknown as User);
-    console.log(userObject);
   };
 
   const signIn = () => {
@@ -41,7 +39,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.log("Google Identity API not loaded");
       return;
     }
-    console.log(window.google, typeof window.google);
     window.google.accounts.id.initialize({
       client_id: CLIENT_ID,
       callback: signInCallback,
