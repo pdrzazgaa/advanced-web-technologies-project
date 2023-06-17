@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { IconButton, Stack, TextField } from "@mui/material";
+import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
 import TopBar from "../../components/TopBar";
 import { URLS } from "../../constants/urls";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
 import { useUser } from "../../contexts/UserProvider";
 import { Clear } from "@mui/icons-material";
+import { Address } from "../../types/Address";
 
 const NewFavouritePlace: FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,9 @@ const NewFavouritePlace: FC = () => {
   const queryClient = useQueryClient();
   const Api = new FavouritePlacesApi(token);
   const [name, setName] = useState("");
+  const [address, setAddress] = useState<Address | null>(null);
+  const [addressInput, setAddressInput] = useState("");
+  const [addressOptions, setAddressOptions] = useState<Address[]>(sources);
 
   useEffect(() => {
     if (user.name == null) {
@@ -21,6 +25,9 @@ const NewFavouritePlace: FC = () => {
     }
   }, [user.name, navigate]);
 
+  const searchAddresses = () => {
+    console.log("searching");
+  };
   return (
     <Stack
       sx={{
@@ -69,6 +76,21 @@ const NewFavouritePlace: FC = () => {
                   },
                 }}
               />
+              <Autocomplete
+                getOptionLabel={(option: Address) => option.name}
+                options={addressOptions}
+                autoComplete={false}
+                value={address}
+                noOptionsText="Nie znaleziono takiego miejsca"
+                onChange={(_e, address: Address | null) => {
+                  setAddress(address);
+                  searchAddresses();
+                }}
+                onInputChange={(_e, addressInput) => {
+                  setAddressInput(addressInput);
+                }}
+                renderInput={(params) => <TextField {...params} label="Adres" fullWidth />}
+              />
             </form>
           </Stack>
         </>
@@ -78,3 +100,11 @@ const NewFavouritePlace: FC = () => {
 };
 
 export default NewFavouritePlace;
+
+const sources = [
+  { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
+  { name: "Wrocław, 3", lat: 51.14, lon: 17.01 },
+  { name: "Wrocław, 4", lat: 51.15, lon: 17.01 },
+  { name: "Wrocław, 5", lat: 51.16, lon: 17.01 },
+  { name: "Wrocław, 6", lat: 51.17, lon: 17.01 },
+];
