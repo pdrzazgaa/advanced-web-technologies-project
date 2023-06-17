@@ -4,4 +4,5 @@ export const URLS = {
   SEARCH_ROUTE: "/wroclaw/trasa",
   ROUTE: "/wroclaw/trasa/:sourceName/:destinationName",
   FAVOURITE_PLACES: "/wroclaw/favourite-places",
+  NEW_FAVOURITE_PLACE: "/wroclaw/favourite-places/new-place",
 };

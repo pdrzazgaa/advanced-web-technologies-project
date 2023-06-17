@@ -1,9 +1,9 @@
+import BottomBar from "../../components/BottomBar";
+import TopBar from "../../components/TopBar";
+import { SearchParams } from "../../types/SearchParams";
+import Searchbar from "./Searchbar";
 import { Stack } from "@mui/material";
 import React, { FC, useState } from "react";
-import BottomBar from "../../components/BottomBar";
-import Searchbar from "./Searchbar";
-import { SearchParams } from "../../types/SearchParams";
-import TopBar from "../../components/TopBar";
 
 const SearchRoute: FC = () => {
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -15,7 +15,7 @@ const SearchRoute: FC = () => {
 
   return (
     <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
-     <TopBar />
+      <TopBar />
       <Searchbar setSearchParams={setSearchParams} />
       <BottomBar activeButton="route" />
     </Stack>

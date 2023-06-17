@@ -1,17 +1,17 @@
-import React, { FC, useEffect } from "react";
-import { useUser } from "../../contexts/UserProvider";
-import { useNavigate } from "react-router-dom";
+import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
+import TopBar from "../../components/TopBar";
+import { MESSAGE } from "../../constants/messages";
 import { URLS } from "../../constants/urls";
-import { Button, Stack, Typography, Divider, Box, Alert, AlertTitle } from "@mui/material";
+import { useUser } from "../../contexts/UserProvider";
 import { User } from "../../types/User";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
-import { MESSAGE } from "../../constants/messages";
 import ErrorIcon from "@mui/icons-material/Error";
+import { Button, Stack, Typography, Divider, Box, Alert, AlertTitle } from "@mui/material";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
-import TopBar from "../../components/TopBar";
+import React, { FC, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FavouritePlaces: FC = () => {
   const navigate = useNavigate();
@@ -66,8 +66,8 @@ const FavouritePlaces: FC = () => {
           <>
             {places.length < 4 && (
               <Button
+                onClick={() => navigate(URLS.NEW_FAVOURITE_PLACE)}
                 sx={{
-                  color: "text.secondary",
                   textTransform: "none",
                   py: 1,
                   boxShadow: "10px 10px 30px #ccc",
@@ -78,7 +78,7 @@ const FavouritePlaces: FC = () => {
                 }}
               >
                 <Typography variant="body2">Dodaj nowe miejsce</Typography>{" "}
-                <AddIcon sx={{ ml: "auto" }} />
+                <AddIcon sx={{ ml: "auto", color: "text.secondary" }} />
               </Button>
             )}
             <Divider />
@@ -86,8 +86,11 @@ const FavouritePlaces: FC = () => {
               <Box key={place.id}>
                 <Stack direction="row">
                   <Typography>{place.name}</Typography>
-                  <Button sx={{ ml: "auto", mb: 1 }} onClick={() => onDeleteClick(place.id)}>
-                    <DeleteIcon sx={{ color: "vbackground.paper" }} />
+                  <Button
+                    sx={{ ml: "auto", mb: 1, color: "text.secondary" }}
+                    onClick={() => onDeleteClick(place.id)}
+                  >
+                    <DeleteIcon sx={{ color: "text.secondary" }} />
                   </Button>
                 </Stack>
                 <Divider />

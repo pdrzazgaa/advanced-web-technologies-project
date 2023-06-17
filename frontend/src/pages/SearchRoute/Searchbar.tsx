@@ -1,5 +1,11 @@
+import { GeoLocationApi } from "../../api/GeoLocationApi";
+import { useLocation } from "../../contexts";
+import { useUser } from "../../contexts/UserProvider";
+import { Address } from "../../types/Address";
 import { Mode } from "../../types/Mode";
 import { SearchParams } from "../../types/SearchParams";
+import FavouritePlacesMenu from "./FavouritePlacesMenu";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Grid,
@@ -11,16 +17,10 @@ import {
   Typography,
   Autocomplete,
 } from "@mui/material";
+import { debounce } from "@mui/material/utils";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import { GeoLocationApi } from "../../api/GeoLocationApi";
-import { useLocation } from "../../contexts";
-import { Address } from "../../types/Address";
-import { debounce } from "@mui/material/utils";
-import FavouritePlacesMenu from "./FavouritePlacesMenu";
-import { useUser } from "../../contexts/UserProvider";
 
 const sources = [
   { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
@@ -88,7 +88,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                     variant="outlined"
                     autoComplete="off"
                     InputProps={{
-                      sx: { color: "text.secondary" },
+                      style: { color: "text.secondary" },
                       // endAdornment: (
                       //   <IconButton onClick={() => setSource(sources[0])}>
                       //     <LocationOnIcon sx={{ fontSize: "30px", color: "green.main" }} />
@@ -100,6 +100,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                         backgroundColor: "background.default",
                         padding: "1px 5px",
                         borderRadius: 1,
+                        color: "text.primary",
                       },
                     }}
                   />
@@ -158,6 +159,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                   format="HH:mm"
                   InputProps={{
                     sx: {
+                      color: "text.secondary",
                       backgroundColor: "background.paper",
                       border: "1px solid white",
                     },
@@ -184,12 +186,12 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                 <ToggleButton
                   value="opt"
                   sx={{
-                    color: "text.primary",
+                    color: "text.secondary",
                     textTransform: "none",
                     padding: "0 20px",
                     border: "1px solid white",
                     "&.Mui-selected, &.Mui-selected:hover": {
-                      color: "text.secondary",
+                      color: "text.primary",
                       backgroundColor: "background.default",
                     },
                   }}
@@ -199,12 +201,12 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                 <ToggleButton
                   value="fast"
                   sx={{
-                    color: "text.primary",
+                    color: "text.secondary",
                     border: "1px solid white",
                     textTransform: "none",
                     padding: "0 20px",
                     "&.Mui-selected, &.Mui-selected:hover": {
-                      color: "text.secondary",
+                      color: "text.primary",
                       backgroundColor: "background.default",
                     },
                   }}

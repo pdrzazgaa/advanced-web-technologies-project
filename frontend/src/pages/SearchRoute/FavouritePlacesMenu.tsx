@@ -1,14 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { FC } from "react";
 import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
+import { MESSAGE } from "../../constants/messages";
+import { URLS } from "../../constants/urls";
 import { useUser } from "../../contexts/UserProvider";
-import { Alert, AlertTitle, Stack, Button, Link, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Alert, AlertTitle, Stack, Button, Link, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { URLS } from "../../constants/urls";
-import EditIcon from "@mui/icons-material/Edit";
-import { MESSAGE } from "../../constants/messages";
+
 const FavouritePlacesMenu: FC = () => {
   const { token } = useUser();
   const Api = new FavouritePlacesApi(token);

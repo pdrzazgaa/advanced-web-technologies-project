@@ -1,7 +1,7 @@
 import { useLocation } from "../../contexts";
 import LocationMarker from "./LocationMarker";
-import "leaflet/dist/leaflet.css";
 import "./Map.css";
+import "leaflet/dist/leaflet.css";
 import React, { FC } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 

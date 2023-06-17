@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
 import { FavouritePlace, FavouritePlaceParams } from "../types/FavouritePlace";
+import axios, { AxiosInstance } from "axios";
 
 const URL = `${process.env.REACT_APP_API_URL}/favourite-places`;
 export class FavouritePlacesApi {
@@ -17,7 +17,6 @@ export class FavouritePlacesApi {
 
   async getAll() {
     const { data: places } = await this.api.get<FavouritePlace[]>(URL);
-    console.log(places);
     return places;
   }
 

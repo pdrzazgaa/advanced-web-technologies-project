@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom";
 import { Paper } from "@mui/material";
 import React, { FC } from "react";
+import { Outlet } from "react-router-dom";
 
 const UserPanelTemplate: FC = () => {
   return (

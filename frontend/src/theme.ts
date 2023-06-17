@@ -24,13 +24,13 @@ declare module "@mui/material/styles" {
     yellow: PaletteOptions["primary"];
   }
 
-    interface Palette {
-      red: Palette["primary"];
-    }
+  interface Palette {
+    red: Palette["primary"];
+  }
 
-    interface PaletteOptions {
-      red: PaletteOptions["primary"];
-    }
+  interface PaletteOptions {
+    red: PaletteOptions["primary"];
+  }
 }
 
 let theme = createTheme({
@@ -40,8 +40,8 @@ let theme = createTheme({
       paper: "#172B5F",
     },
     text: {
-      primary: "#fff",
-      secondary: "#000",
+      primary: "#000",
+      secondary: "#fff",
       disabled: "#aaa",
     },
     primary: {

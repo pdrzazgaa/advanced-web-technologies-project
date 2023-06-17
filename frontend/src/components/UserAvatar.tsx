@@ -1,7 +1,6 @@
+import { useUser } from "../contexts/UserProvider";
 import { Avatar } from "@mui/material";
 import React, { FC } from "react";
-import { useUser } from "../contexts/UserProvider";
-
 
 function stringToColor(string: string) {
   let hash = 0;

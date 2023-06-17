@@ -1,9 +1,9 @@
+import { URLS } from "../constants/urls";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 import { Typography, Grid, ListItemButton } from "@mui/material";
 import React, { FC } from "react";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { Link } from "react-router-dom";
-import { URLS } from "../constants/urls";
 
 const BottomBar: FC<{ activeButton: "route" | "timetable" }> = ({ activeButton }) => {
   const bottomBarItems = [

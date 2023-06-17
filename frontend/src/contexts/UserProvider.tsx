@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable react-refresh/only-export-components */
-import React, { useContext, useState, ReactNode } from "react";
 import { User } from "../types/User";
 import jwtDecode from "jwt-decode";
+import React, { useContext, useState, ReactNode } from "react";
 
 interface UserProviderProps {
   children: ReactNode;
