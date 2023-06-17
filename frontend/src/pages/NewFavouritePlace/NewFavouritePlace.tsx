@@ -1,33 +1,55 @@
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import { IconButton, Stack, TextField, Button, Typography } from "@mui/material";
 import TopBar from "../../components/TopBar";
 import { URLS } from "../../constants/urls";
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
 import { useUser } from "../../contexts/UserProvider";
 import { Clear } from "@mui/icons-material";
+import AsyncAutoselect from "../../components/AsyncAutoselect";
 import { Address } from "../../types/Address";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import { MESSAGE } from "../../constants/messages";
+import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
+import { useNavigate } from "react-router-dom";
 
 const NewFavouritePlace: FC = () => {
-  const navigate = useNavigate();
   const { user, token } = useUser();
-  const queryClient = useQueryClient();
-  const Api = new FavouritePlacesApi(token);
   const [name, setName] = useState("");
   const [address, setAddress] = useState<Address | null>(null);
-  const [addressInput, setAddressInput] = useState("");
-  const [addressOptions, setAddressOptions] = useState<Address[]>(sources);
-
+  const Api = new FavouritePlacesApi(token);
+  const navigate = useNavigate();
+   const queryClient = useQueryClient();
   useEffect(() => {
     if (user.name == null) {
-      navigate(URLS.SEARCH_ROUTE);
+      navigate(URLS.FAVOURITE_PLACES);
     }
   }, [user.name, navigate]);
 
-  const searchAddresses = () => {
-    console.log("searching");
+  const addMutation = useMutation(
+    (address: Address) =>
+      Api.addNewPlace({
+        latitude: address.latitude,
+        longitude: address.longitude,
+        address: address.name,
+        name: name,
+      }),
+    {
+      onSuccess: async () => {
+        void queryClient.invalidateQueries(["favouritePlaces"]);
+        enqueueSnackbar(MESSAGE.ADD_PLACE_SUCCESS, { variant: "success" });
+        navigate(URLS.FAVOURITE_PLACES);
+      },
+      onError: () => enqueueSnackbar(MESSAGE.ADD_PLACE_ERROR, { variant: "error" }),
+    },
+  );
+
+  const onSubmit = (e: FormEvent) => {
+    if (address) {
+      e.preventDefault();
+      addMutation.mutate(address);
+    }
   };
+
   return (
     <Stack
       sx={{
@@ -48,49 +70,49 @@ const NewFavouritePlace: FC = () => {
               gap: 2,
             }}
           >
-            <form>
-              <TextField
-                label="nazwa"
-                fullWidth
-                variant="outlined"
-                value={name}
-                autoComplete="off"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      data-test="clear-button"
-                      sx={{
-                        visibility: name ? "visible" : "hidden",
-                        border: "1px solid #ccc",
-                      }}
-                      onClick={() => setName("")}
-                    >
-                      <Clear sx={{ fontSize: "20px", color: "black" }} />
-                    </IconButton>
-                  ),
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: "text.primary",
-                  },
-                }}
-              />
-              <Autocomplete
-                getOptionLabel={(option: Address) => option.name}
-                options={addressOptions}
-                autoComplete={false}
-                value={address}
-                noOptionsText="Nie znaleziono takiego miejsca"
-                onChange={(_e, address: Address | null) => {
-                  setAddress(address);
-                  searchAddresses();
-                }}
-                onInputChange={(_e, addressInput) => {
-                  setAddressInput(addressInput);
-                }}
-                renderInput={(params) => <TextField {...params} label="Adres" fullWidth />}
-              />
+            <form onSubmit={onSubmit}>
+              <Stack gap={2}>
+                <TextField
+                  label="Nazwa"
+                  fullWidth
+                  variant="outlined"
+                  value={name}
+                  autoComplete="off"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        data-test="clear-button"
+                        sx={{
+                          visibility: name ? "visible" : "hidden",
+                          border: "1px solid #ccc",
+                        }}
+                        onClick={() => setName("")}
+                      >
+                        <Clear sx={{ fontSize: "20px", color: "black" }} />
+                      </IconButton>
+                    ),
+                  }}
+                  InputLabelProps={{
+                    sx: {
+                      color: "text.primary",
+                    },
+                  }}
+                />
+                <AsyncAutoselect onAddressSearch={setAddress} queryKey="favourite-address" />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: "56px",
+                    textTransform: "none",
+                  }}
+                  disabled={!address || !name}
+                >
+                  <Typography>Zapisz</Typography>
+                </Button>
+              </Stack>
             </form>
           </Stack>
         </>
@@ -100,11 +122,3 @@ const NewFavouritePlace: FC = () => {
 };
 
 export default NewFavouritePlace;
-
-const sources = [
-  { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-  { name: "Wrocław, 3", lat: 51.14, lon: 17.01 },
-  { name: "Wrocław, 4", lat: 51.15, lon: 17.01 },
-  { name: "Wrocław, 5", lat: 51.16, lon: 17.01 },
-  { name: "Wrocław, 6", lat: 51.17, lon: 17.01 },
-];

@@ -3,16 +3,25 @@ import TopBar from "../../components/TopBar";
 import { MESSAGE } from "../../constants/messages";
 import { URLS } from "../../constants/urls";
 import { useUser } from "../../contexts/UserProvider";
-import { User } from "../../types/User";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ErrorIcon from "@mui/icons-material/Error";
-import { Button, Stack, Typography, Divider, Box, Alert, AlertTitle } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+  Divider,
+  Box,
+  Alert,
+  AlertTitle,
+  Skeleton,
+} from "@mui/material";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import React, { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const MAX_SAVED_PLACES = 3;
 const FavouritePlaces: FC = () => {
   const navigate = useNavigate();
   const { user, token } = useUser();
@@ -25,7 +34,7 @@ const FavouritePlaces: FC = () => {
     }
   }, [user.name, navigate]);
 
-  const { data: places, isError } = useQuery(["favouritePlaces"], () => Api.getAll());
+  const { data: places, isError, isLoading } = useQuery(["favouritePlaces"], () => Api.getAll());
 
   const deleteMutation = useMutation((variables: { id: number }) => Api.deletePlace(variables.id), {
     onSuccess: async () => {
@@ -53,7 +62,6 @@ const FavouritePlaces: FC = () => {
         sx={{
           backgroundColor: "background.default",
           height: "100%",
-          color: "text.secondary",
           p: 4,
           gap: 2,
         }}
@@ -62,9 +70,18 @@ const FavouritePlaces: FC = () => {
           <Alert icon={<ErrorIcon />} color="error" sx={{ px: 4 }}>
             <AlertTitle>{MESSAGE.PLACES_LOAD_ERROR}</AlertTitle>
           </Alert>
-        ) : places ? (
+        ) : isLoading ? (
           <>
-            {places.length < 4 && (
+            <Skeleton variant="rounded" width="100%" height={30} />
+            <Divider />
+            <Skeleton variant="rounded" width="100%" height={50} />
+            <Divider />
+            <Skeleton variant="rounded" width="100%" height={50} />
+            <Divider />
+          </>
+        ) : (
+          <>
+            {places.length < MAX_SAVED_PLACES && (
               <Button
                 onClick={() => navigate(URLS.NEW_FAVOURITE_PLACE)}
                 sx={{
@@ -78,7 +95,7 @@ const FavouritePlaces: FC = () => {
                 }}
               >
                 <Typography variant="body2">Dodaj nowe miejsce</Typography>{" "}
-                <AddIcon sx={{ ml: "auto", color: "text.secondary" }} />
+                <AddIcon sx={{ ml: "auto" }} />
               </Button>
             )}
             <Divider />
@@ -86,11 +103,8 @@ const FavouritePlaces: FC = () => {
               <Box key={place.id}>
                 <Stack direction="row">
                   <Typography>{place.name}</Typography>
-                  <Button
-                    sx={{ ml: "auto", mb: 1, color: "text.secondary" }}
-                    onClick={() => onDeleteClick(place.id)}
-                  >
-                    <DeleteIcon sx={{ color: "text.secondary" }} />
+                  <Button sx={{ ml: "auto", mb: 1 }} onClick={() => onDeleteClick(place.id)}>
+                    <DeleteIcon sx={{ color: "background.paper" }} />
                   </Button>
                 </Stack>
                 <Divider />
@@ -102,8 +116,6 @@ const FavouritePlaces: FC = () => {
               <></>
             )}
           </>
-        ) : (
-          <></>
         )}
       </Stack>
     </Stack>

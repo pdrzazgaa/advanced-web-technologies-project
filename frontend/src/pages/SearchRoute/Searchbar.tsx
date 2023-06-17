@@ -23,11 +23,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 
 const sources = [
-  { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
-  { name: "Wrocław, 3", lat: 51.14, lon: 17.01 },
-  { name: "Wrocław, 4", lat: 51.15, lon: 17.01 },
-  { name: "Wrocław, 5", lat: 51.16, lon: 17.01 },
-  { name: "Wrocław, 6", lat: 51.17, lon: 17.01 },
+  { name: "Wrocław, 2", latitude: 51.13, longitude: 17.01 },
+  { name: "Wrocław, 3", latitude: 51.14, longitude: 17.01 },
+  { name: "Wrocław, 4", latitude: 51.15, longitude: 17.01 },
+  { name: "Wrocław, 5", latitude: 51.16, longitude: 17.01 },
+  { name: "Wrocław, 6", latitude: 51.17, longitude: 17.01 },
 ];
 
 interface SearchbarProps {

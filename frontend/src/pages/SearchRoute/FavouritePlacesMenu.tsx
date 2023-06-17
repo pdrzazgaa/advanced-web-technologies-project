@@ -23,9 +23,9 @@ const FavouritePlacesMenu: FC = () => {
         </Alert>
       ) : places && places.length ? (
         places.map((place, idx) => (
-          <Button key={idx} sx={{ color: "text.primary", width: 90, textTransform: "none" }}>
+          <Button key={idx} sx={{ color: "text.secondary", width: 80, textTransform: "none" }}>
             <Stack direction="column" width="100%">
-              <LocationOnIcon sx={{ fontSize: 32, color: "text.primary", alignSelf: "center" }} />
+              <LocationOnIcon sx={{ fontSize: 32, color: "text.secondary", alignSelf: "center" }} />
               <Typography noWrap sx={{ fontSize: "14px" }}>
                 {place.name}
               </Typography>
