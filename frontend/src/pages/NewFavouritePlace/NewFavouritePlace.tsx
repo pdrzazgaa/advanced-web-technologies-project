@@ -18,7 +18,7 @@ const NewFavouritePlace: FC = () => {
   const [address, setAddress] = useState<Address | null>(null);
   const Api = new FavouritePlacesApi(token);
   const navigate = useNavigate();
-   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (user.name == null) {
       navigate(URLS.FAVOURITE_PLACES);
@@ -99,7 +99,11 @@ const NewFavouritePlace: FC = () => {
                     },
                   }}
                 />
-                <AsyncAutoselect onAddressSearch={setAddress} queryKey="favourite-address" />
+                <AsyncAutoselect
+                  onAddressSearch={setAddress}
+                  queryKey="favourite-address"
+                  label="Adres"
+                />
                 <Button
                   type="submit"
                   variant="contained"

@@ -1,4 +1,3 @@
-import { GeoLocationApi } from "../../api/GeoLocationApi";
 import { useLocation } from "../../contexts";
 import { useUser } from "../../contexts/UserProvider";
 import { Address } from "../../types/Address";
@@ -6,41 +5,20 @@ import { Mode } from "../../types/Mode";
 import { SearchParams } from "../../types/SearchParams";
 import FavouritePlacesMenu from "./FavouritePlacesMenu";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import {
-  Grid,
-  TextField,
-  IconButton,
-  ToggleButton,
-  ToggleButtonGroup,
-  Button,
-  Typography,
-  Autocomplete,
-} from "@mui/material";
-import { debounce } from "@mui/material/utils";
+import { Grid, ToggleButton, ToggleButtonGroup, Button, Typography } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
-
-const sources = [
-  { name: "Wrocław, 2", latitude: 51.13, longitude: 17.01 },
-  { name: "Wrocław, 3", latitude: 51.14, longitude: 17.01 },
-  { name: "Wrocław, 4", latitude: 51.15, longitude: 17.01 },
-  { name: "Wrocław, 5", latitude: 51.16, longitude: 17.01 },
-  { name: "Wrocław, 6", latitude: 51.17, longitude: 17.01 },
-];
+import React, { FC, FormEvent, useState } from "react";
+import AsyncAutoselect from "../../components/AsyncAutoselect";
 
 interface SearchbarProps {
   setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>;
 }
 const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
-  const [source, setSource] = useState<Address | null>(sources[1]);
-  const [sourceInput, setSourceInput] = useState("");
-  const [destinationInput, setDestinationInput] = useState("");
+  const [source, setSource] = useState<Address | null>(null);
   const [destination, setDestination] = useState<Address | null>(null);
   const [time, setTime] = useState<Date | null>(new Date());
   const [mode, setMode] = useState<Mode>("fast");
-  const [options, setOption] = useState<Address[]>(sources);
   const { user } = useUser();
   const adapter = new AdapterDayjs();
 
@@ -48,23 +26,17 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setSearchParams({
-      source: null,
-      destination: null,
-      time: new Date(),
-      mode: "opt",
-    });
-
-    GeoLocationApi.getCoordinates("Traugutta 132, Wrocław, Poland");
-    GeoLocationApi.getAddress([51.098094, 17.056168]);
-  };
-  const searchAdressess = (address: string) => {
-    setSourceInput(address);
+    if (isValidForm()) {
+      setSearchParams({
+        source: null,
+        destination: null,
+        time: new Date(),
+        mode: "opt",
+      });
+    }
   };
 
   const isValidForm = () => source && destination && time && time.toString() !== "Invalid Date";
-
-  const sourcesNames = () => sources.map((source) => source.name);
 
   return (
     <Grid container sx={{ flexGrow: 1, height: "100%" }}>
@@ -72,84 +44,18 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
         <Grid container height="100%" flexDirection="column" gap={2}>
           <Grid container spacing={2} px={4}>
             <Grid item xs={12}>
-              <Autocomplete
-                value={source}
-                onChange={(_e, _address) => setSource(sources[0])}
-                onInputChange={(_e, address: string) => searchAdressess(address)}
-                inputValue={sourceInput}
-                noOptionsText="No locations"
-                options={options}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Skąd jedziemy"
-                    fullWidth
-                    variant="outlined"
-                    autoComplete="off"
-                    InputProps={{
-                      style: { color: "text.secondary" },
-                      // endAdornment: (
-                      //   <IconButton onClick={() => setSource(sources[0])}>
-                      //     <LocationOnIcon sx={{ fontSize: "30px", color: "green.main" }} />
-                      //   </IconButton>
-                      // ),
-                    }}
-                    InputLabelProps={{
-                      sx: {
-                        backgroundColor: "background.default",
-                        padding: "1px 5px",
-                        borderRadius: 1,
-                        color: "text.primary",
-                      },
-                    }}
-                  />
-                )}
-              />
-              {/* 
-              <TextField
+              <AsyncAutoselect
+                queryKey="source-address"
+                onAddressSearch={setSource}
                 label="Skąd jedziemy"
-                fullWidth
-                variant="outlined"
-                value={source}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSource(e.target.value)}
-                autoComplete="off"
-                InputProps={{
-                  sx: { color: "text.secondary" },
-                  endAdornment: (
-                    <IconButton onClick={() => setSource("")}>
-                      <LocationOnIcon sx={{ fontSize: "30px", color: "green.main" }} />
-                    </IconButton>
-                  ),
-                }}
-                InputLabelProps={{
-                  sx: {
-                    backgroundColor: "background.default",
-                    padding: "1px 5px",
-                    borderRadius: 1,
-                  },
-                }}
-              /> */}
+              />
             </Grid>
             <Grid item xs={12}>
-              {/* <TextField
+              <AsyncAutoselect
+                queryKey="destination-address"
+                onAddressSearch={setDestination}
                 label="Dokąd jedziemy"
-                fullWidth
-                variant="outlined"
-                value={destination}
-                // onChange={(e: ChangeEvent<HTMLInputElement>) => setDestination(e.target.value)}
-                autoComplete="off"
-                InputProps={{
-                  sx: { color: "text.secondary" },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    backgroundColor: "background.default",
-                    padding: "1px 5px",
-                    borderRadius: 1,
-                  },
-                }}
-              /> */}
+              />
             </Grid>
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -160,7 +66,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
                   InputProps={{
                     sx: {
                       color: "text.secondary",
-                      backgroundColor: "background.paper",
+                      backgroundColor: "primary.main",
                       border: "1px solid white",
                     },
                   }}

@@ -14,6 +14,7 @@ const UserPanelTemplate: FC = () => {
         left: "50px",
         top: "5vh",
         borderRadius: 4,
+        backgroundColor: "primary.main",
       }}
     >
       <Outlet />

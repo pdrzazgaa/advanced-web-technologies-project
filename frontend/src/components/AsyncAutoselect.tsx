@@ -3,15 +3,16 @@ import React, { FC, useEffect, useMemo, useState } from "react";
 import { Address } from "../types/Address";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import { Autocomplete, TextField, CircularProgress, ListItem, Typography } from "@mui/material";
+import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { GeoLocationApi } from "../api/GeoLocationApi";
 
 interface AsyncAutoselectProps {
   onAddressSearch: (address: Address | null) => void;
   queryKey: string;
+  label: string;
 }
 
-const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey }) => {
+const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey, label }) => {
   const [address, setAddress] = useState<Address | null>(null);
   const [addressInput, setAddressInput] = useState("");
   const [addressOptions, setAddressOptions] = useState<Address[]>([]);
@@ -53,6 +54,7 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey }
       autoComplete={false}
       value={address}
       loading={loading}
+      isOptionEqualToValue={() => true}
       noOptionsText="Nie znaleziono takiego miejsca"
       onChange={(_e, address: Address | null) => {
         setAddress(address);
@@ -68,7 +70,7 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey }
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Adres"
+          label={label}
           fullWidth
           InputProps={{
             ...params.InputProps,
@@ -81,17 +83,15 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey }
           }}
           InputLabelProps={{
             sx: {
+              backgroundColor: "background.paper",
+              px: 1,
               color: "text.primary",
+              borderRadius: 2,
             },
           }}
         />
       )}
       getOptionLabel={(option) => option.name}
-      renderOption={(props, option: Address) => (
-        <ListItem {...props} style={{ backgroundColor: "white", color: "black" }}>
-          <Typography>{option.name}</Typography>
-        </ListItem>
-      )}
     />
   );
 };
