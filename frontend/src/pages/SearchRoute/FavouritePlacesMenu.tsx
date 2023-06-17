@@ -5,7 +5,15 @@ import { useUser } from "../../contexts/UserProvider";
 import EditIcon from "@mui/icons-material/Edit";
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Alert, AlertTitle, Stack, Button, Link, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Stack,
+  Button,
+  Link,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -13,7 +21,7 @@ import { Link as RouterLink } from "react-router-dom";
 const FavouritePlacesMenu: FC = () => {
   const { token } = useUser();
   const Api = new FavouritePlacesApi(token);
-  const { data: places, isError } = useQuery(["favouritePlaces"], () => Api.getAll());
+  const { data: places, isError, isLoading } = useQuery(["favouritePlaces"], () => Api.getAll());
 
   return (
     <Stack direction="row" px={4} alignItems="center" justifyContent="center">
@@ -21,6 +29,12 @@ const FavouritePlacesMenu: FC = () => {
         <Alert icon={<ErrorIcon />} color="error">
           <AlertTitle>{MESSAGE.PLACES_LOAD_ERROR}</AlertTitle>
         </Alert>
+      ) : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      isLoading || true ? (
+        <Stack direction="row" gap={2}>
+          <CircularProgress size={40} sx={{ color: "grey" }} />
+          <CircularProgress size={40} sx={{ color: "text.primary" }} />
+        </Stack>
       ) : places && places.length ? (
         places.map((place, idx) => (
           <Button key={idx} sx={{ color: "text.secondary", width: 80, textTransform: "none" }}>
