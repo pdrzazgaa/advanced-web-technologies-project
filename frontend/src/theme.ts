@@ -84,6 +84,13 @@ theme = createTheme(theme, {
         },
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        noOptions: {
+          color: "#707070",
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         h1: {

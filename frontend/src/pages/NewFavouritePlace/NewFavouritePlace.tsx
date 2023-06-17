@@ -100,6 +100,7 @@ const NewFavouritePlace: FC = () => {
                   }}
                 />
                 <AsyncAutoselect
+                  address={address}
                   onAddressSearch={setAddress}
                   queryKey="favourite-address"
                   label="Adres"

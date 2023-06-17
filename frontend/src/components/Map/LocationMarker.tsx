@@ -1,10 +1,19 @@
+import { Typography, Button, Stack } from "@mui/material";
 import { useLocation } from "../../contexts";
 import { divIcon } from "leaflet";
-import React, { FC, ReactNode } from "react";
-import { Marker } from "react-leaflet";
+import React, { FC } from "react";
+import { Marker, useMapEvents, Popup } from "react-leaflet";
+import TripOriginIcon from "@mui/icons-material/TripOrigin";
 
-const LocationMarker: FC<{ children?: ReactNode }> = ({ children }) => {
-  const { position } = useLocation();
+const LocationMarker: FC = () => {
+  const { position, setPosition, setSourcePosition, setDestPosition } = useLocation();
+
+  const map = useMapEvents({
+    click(e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
 
   const pinIcon = divIcon({
     html: `
@@ -19,7 +28,28 @@ const LocationMarker: FC<{ children?: ReactNode }> = ({ children }) => {
 
   return (
     <Marker icon={pinIcon} position={position}>
-      {children}
+      <Popup>
+        <Stack>
+          <Button
+            sx={{ textTransform: "none", py: 0, height: "40px" }}
+            onClick={() => {
+              setSourcePosition(position), map.closePopup();
+            }}
+          >
+            <TripOriginIcon sx={{ color: "green.main", mr: 1 }} />
+            <Typography>Ustaw tu punkt startowy</Typography>
+          </Button>
+          <Button
+            sx={{ textTransform: "none", py: 0, height: "40px" }}
+            onClick={() => {
+              setDestPosition(position), map.closePopup();
+            }}
+          >
+            <TripOriginIcon sx={{ color: "blue.main", mr: 1 }} />
+            <Typography>Ustaw tu punkt końcowy</Typography>
+          </Button>
+        </Stack>
+      </Popup>
     </Marker>
   );
 };

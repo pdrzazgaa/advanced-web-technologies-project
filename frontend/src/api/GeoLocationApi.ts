@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { LatLngExpression } from "leaflet";
+import { LatLng, LatLngExpression } from "leaflet";
 
 // const SEARCH_SPECIFIER = "Wrocław, Poland";
 // if (!text.endsWith(SEARCH_SPECIFIER)) {
@@ -33,9 +33,18 @@ export class GeoLocationApi {
   }
 
   static async getAddress(coordinates: LatLngExpression) {
-    const [lat, lon] = coordinates as Array<number>; // 51 17 lat lon
+    let lat, lng;
+
+    if (typeof coordinates === "object" && "lat" in coordinates && "lng" in coordinates) {
+      const { lat: latitude, lng: longitude } = coordinates as LatLng;
+      lat = latitude;
+      lng = longitude;
+    } else {
+      [lat, lng] = coordinates as [number, number];
+    }
+    console.log(lat, lng);
     const { data } = await Api.get("/reverse", {
-      params: { lat, lon, apiKey },
+      params: { lat, lon: lng, apiKey },
     });
     const name = formatAddress(data.features[0]);
     return name;

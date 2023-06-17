@@ -5,12 +5,14 @@ import { Mode } from "../../types/Mode";
 import { SearchParams } from "../../types/SearchParams";
 import FavouritePlacesMenu from "./FavouritePlacesMenu";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import { Grid, ToggleButton, ToggleButtonGroup, Button, Typography } from "@mui/material";
+import { Grid, ToggleButton, ToggleButtonGroup, Button, InputAdornment } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { FC, FormEvent, useState } from "react";
 import AsyncAutoselect from "../../components/AsyncAutoselect";
-
+import TripOriginIcon from "@mui/icons-material/TripOrigin";
+import { useQuery } from "@tanstack/react-query";
+import { GeoLocationApi } from "../../api/GeoLocationApi";
 interface SearchbarProps {
   setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>;
 }
@@ -21,8 +23,8 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
   const [mode, setMode] = useState<Mode>("fast");
   const { user } = useUser();
   const adapter = new AdapterDayjs();
-
-  const { position } = useLocation();
+  const { sourcePosition, destPosition } = useLocation();
+  const { setSourcePosition, setDestPosition } = useLocation();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -36,6 +38,36 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
     }
   };
 
+  useQuery(
+    ["get-source-address", sourcePosition],
+    async () => {
+      if (sourcePosition) {
+        const address = await GeoLocationApi.getAddress(sourcePosition);
+        return address;
+      }
+      return null;
+    },
+    {
+      enabled: Boolean(sourcePosition),
+      onSuccess: (data: Address) => setSource(data),
+    },
+  );
+
+  useQuery(
+    ["get-destination-address", destPosition],
+    async () => {
+      if (destPosition) {
+        const address = await GeoLocationApi.getAddress(destPosition);
+        return address;
+      }
+      return null;
+    },
+    {
+      enabled: Boolean(destPosition),
+      onSuccess: (data: Address) => setDestination(data),
+    },
+  );
+
   const isValidForm = () => source && destination && time && time.toString() !== "Invalid Date";
 
   return (
@@ -45,16 +77,34 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
           <Grid container spacing={2} px={4}>
             <Grid item xs={12}>
               <AsyncAutoselect
+                address={source}
                 queryKey="source-address"
-                onAddressSearch={setSource}
+                onAddressSearch={(address: Address | null) => {
+                  setSource(address);
+                  setSourcePosition(address ? [address.latitude, address.longitude] : null);
+                }}
                 label="Skąd jedziemy"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <TripOriginIcon sx={{ color: "green.main" }} />
+                  </InputAdornment>
+                }
               />
             </Grid>
             <Grid item xs={12}>
               <AsyncAutoselect
                 queryKey="destination-address"
-                onAddressSearch={setDestination}
+                address={destination}
+                onAddressSearch={(address: Address | null) => {
+                  setDestination(address);
+                  setDestPosition(address ? [address.latitude, address.longitude] : null);
+                }}
                 label="Dokąd jedziemy"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <TripOriginIcon sx={{ color: "blue.main" }} />
+                  </InputAdornment>
+                }
               />
             </Grid>
             <Grid item xs={4}>
@@ -132,7 +182,6 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <Typography>.</Typography>
             {isValidForm() && (
               <Button
                 type="submit"

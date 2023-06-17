@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { Address } from "../types/Address";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
@@ -7,20 +7,27 @@ import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { GeoLocationApi } from "../api/GeoLocationApi";
 
 interface AsyncAutoselectProps {
+  address: Address | null;
   onAddressSearch: (address: Address | null) => void;
   queryKey: string;
   label: string;
+  startAdornment?: ReactNode;
 }
 
-const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey, label }) => {
-  const [address, setAddress] = useState<Address | null>(null);
+const AsyncAutoselect: FC<AsyncAutoselectProps> = ({
+  address,
+  onAddressSearch,
+  queryKey,
+  label,
+  startAdornment,
+}) => {
   const [addressInput, setAddressInput] = useState("");
   const [addressOptions, setAddressOptions] = useState<Address[]>([]);
   const [loading, setLoading] = useState(false);
 
   const query = useQuery(
     [queryKey, { addressInput }],
-    () => GeoLocationApi.searchAddress(addressInput),
+    () => GeoLocationApi.searchAddress(`wrocław, ${  addressInput}`),
     {
       enabled: false,
       onSuccess: (data) => {
@@ -55,9 +62,8 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey, 
       value={address}
       loading={loading}
       isOptionEqualToValue={() => true}
-      noOptionsText="Nie znaleziono takiego miejsca"
+      noOptionsText={addressInput ? "Nie znaleziono takiego miejsca" : ""}
       onChange={(_e, address: Address | null) => {
-        setAddress(address);
         onAddressSearch(address);
       }}
       onInputChange={(_e, addressInput) => {
@@ -74,6 +80,7 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({ onAddressSearch, queryKey, 
           fullWidth
           InputProps={{
             ...params.InputProps,
+            startAdornment: startAdornment ? startAdornment : <></>,
             endAdornment: (
               <>
                 {loading ? <CircularProgress color="inherit" size={20} /> : null}
