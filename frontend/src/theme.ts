@@ -23,6 +23,14 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     yellow: PaletteOptions["primary"];
   }
+
+    interface Palette {
+      red: Palette["primary"];
+    }
+
+    interface PaletteOptions {
+      red: PaletteOptions["primary"];
+    }
 }
 
 let theme = createTheme({
@@ -48,6 +56,9 @@ let theme = createTheme({
     },
     yellow: {
       main: "#EEC73D",
+    },
+    red: {
+      main: "#870f0b",
     },
   },
 });

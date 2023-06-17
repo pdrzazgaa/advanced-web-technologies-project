@@ -9,6 +9,7 @@ import SearchRoute from "./pages/SearchRoute";
 import Route from "./pages/Route";
 import SearchTimetable from "./pages/SearchTimetable";
 import Timetable from "./pages/Timetable";
+import FavouritePlaces from "./pages/FavouritePlaces/FavouritePlaces";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             path: URLS.TIMETABLE,
             element: <Timetable />,
           },
+          {
+            path: URLS.FAVOURITE_PLACES,
+            element: <FavouritePlaces />
+          }
         ],
       },
     ],

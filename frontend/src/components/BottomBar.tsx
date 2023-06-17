@@ -3,19 +3,20 @@ import React, { FC } from "react";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { Link } from "react-router-dom";
+import { URLS } from "../constants/urls";
 
 const BottomBar: FC<{ activeButton: "route" | "timetable" }> = ({ activeButton }) => {
   const bottomBarItems = [
     {
       icon: <ExpandCircleDownIcon sx={{ transform: "rotate(-90deg)", fontSize: 50 }} />,
       label: "Trasa",
-      path: "/wroclaw/trasa",
+      path: URLS.SEARCH_ROUTE,
       value: "route",
     },
     {
       icon: <ListAltIcon sx={{ fontSize: 50 }} />,
       label: "Rozkłady",
-      path: "/wroclaw/rozklady",
+      path: URLS.SEARCH_TIMETABLE,
       value: "timetable",
     },
   ];

@@ -6,7 +6,7 @@ const UserPanelTemplate: FC = () => {
   return (
     <Paper
       sx={{
-        zIndex: 9999,
+        zIndex: 1000,
         height: "90vh",
         width: "30vw",
         minWidth: "400px",

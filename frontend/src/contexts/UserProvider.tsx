@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
 import React, { useContext, useState, ReactNode } from "react";
 import { User } from "../types/User";

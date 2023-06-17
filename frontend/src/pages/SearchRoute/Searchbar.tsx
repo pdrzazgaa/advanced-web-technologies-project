@@ -19,6 +19,8 @@ import { GeoLocationApi } from "../../api/GeoLocationApi";
 import { useLocation } from "../../contexts";
 import { Address } from "../../types/Address";
 import { debounce } from "@mui/material/utils";
+import FavouritePlacesMenu from "./FavouritePlacesMenu";
+import { useUser } from "../../contexts/UserProvider";
 
 const sources = [
   { name: "Wrocław, 2", lat: 51.13, lon: 17.01 },
@@ -39,7 +41,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
   const [time, setTime] = useState<Date | null>(new Date());
   const [mode, setMode] = useState<Mode>("fast");
   const [options, setOption] = useState<Address[]>(sources);
-
+  const { user } = useUser();
   const adapter = new AdapterDayjs();
 
   const { position } = useLocation();
@@ -212,6 +214,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
               </ToggleButtonGroup>
             </Grid>
           </Grid>
+          {user.name && <FavouritePlacesMenu />}
           <Grid
             container
             sx={{
