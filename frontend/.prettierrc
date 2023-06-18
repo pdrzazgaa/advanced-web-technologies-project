@@ -4,21 +4,6 @@
   "useTabs": false,
   "printWidth": 100,
   "tabWidth": 2,
-  "arrowParens": "avoid",
   "trailingComma": "all",
-  "bracketSpacing": true,
-  "importOrder": [
-    "^react(.*)$",
-    "^@mui/?(.*)$",
-    "^@emotion/?(.*)$",
-    "^@tanstack/?(.*)$",
-    "<THIRD_PARTY_MODULES>",
-    "^@typeDefs/?(.*)$",
-    "^@utils/?(.*)$",
-    "^@api/?(.*)$",
-    "^@cypress/?(.*)$",
-    "^@pages/?(.*)$",
-    "^@components/?(.*)$",
-    "^[./]"
-  ]
+  "bracketSpacing": true
 }
