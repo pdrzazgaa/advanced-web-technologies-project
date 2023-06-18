@@ -7,14 +7,39 @@ import { SearchParams } from "../../types/SearchParams";
 import Searchbar from "./Searchbar";
 import { Stack } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
+import { LatLngExpression } from "leaflet";
+
+const DEFAULT_POSITION = [51.107883, 17.038538] as LatLngExpression;
+const MAX_LOCATING_TIME = 6000;
 
 const SearchRoute: FC = () => {
   const [searchParams, setSearchParams] = useState<SearchParams | null>(null);
-  const { setPage } = useLocation();
+  const { setPage, position, setPosition } = useLocation();
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     setPage("route");
+    if (!position) {
+      console.log("posiition undefined");
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then((status) => {
+          if (status.state === "granted") {
+            navigator.geolocation.getCurrentPosition(
+              ({ coords: { latitude, longitude } }) => {
+                setPosition([latitude, longitude]);
+              },
+              () => {
+                setPosition(DEFAULT_POSITION);
+              },
+              { timeout: MAX_LOCATING_TIME },
+            );
+          } else {
+            setPosition(DEFAULT_POSITION);
+          }
+        })
+        .catch(() => setPosition(DEFAULT_POSITION));
+    }
   }, []);
 
   const {

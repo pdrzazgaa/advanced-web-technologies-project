@@ -8,8 +8,8 @@ interface LocationProviderProps {
 }
 
 interface LocationContextValue {
-  position: LatLngExpression;
-  setPosition: React.Dispatch<React.SetStateAction<LatLngExpression>>;
+  position: LatLngExpression | null;
+  setPosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;
   sourcePosition: LatLngExpression | null;
   setSourcePosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;
   destPosition: LatLngExpression | null;
@@ -23,7 +23,7 @@ interface LocationContextValue {
 export const LocationContext = React.createContext<LocationContextValue | null>(null);
 
 export const LocationProvider: React.FC<LocationProviderProps> = ({ children }) => {
-  const [position, setPosition] = useState<LatLngExpression>([51.107883, 17.038538]);
+  const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [sourcePosition, setSourcePosition] = useState<LatLngExpression | null>(null);
   const [destPosition, setDestPosition] = useState<LatLngExpression | null>(null);
   const [favPlacePosition, setFavPlacePosition] = useState<LatLngExpression | null>(null);

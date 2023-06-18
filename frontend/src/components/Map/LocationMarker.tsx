@@ -16,7 +16,9 @@ const LocationMarker: FC = () => {
   });
 
   useEffect(() => {
-    map.flyTo(position, map.getZoom());
+    if (position) {
+      map.flyTo(position, map.getZoom());
+    }
   }, [position]);
 
   const pinIcon = divIcon({
@@ -30,7 +32,7 @@ const LocationMarker: FC = () => {
     iconAnchor: [18, 52],
   });
 
-  return (
+  return position ? (
     <Marker icon={pinIcon} position={position}>
       {page != "else" && (
         <Popup>
@@ -72,7 +74,7 @@ const LocationMarker: FC = () => {
         </Popup>
       )}
     </Marker>
-  );
+  ) : <></>;
 };
 
 export default LocationMarker;
