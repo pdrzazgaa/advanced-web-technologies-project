@@ -4,7 +4,6 @@ import ErrorPage from "./pages/ErrorPage";
 import FavouritePlaces from "./pages/FavouritePlaces/FavouritePlaces";
 import NewFavouritePlace from "./pages/NewFavouritePlace/NewFavouritePlace";
 import PageTemplate from "./pages/PageTemplate";
-import Route from "./pages/Route";
 import SearchRoute from "./pages/SearchRoute";
 import SearchTimetable from "./pages/SearchTimetable";
 import Timetable from "./pages/Timetable";
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
           {
             path: URLS.SEARCH_ROUTE,
             element: <SearchRoute />,
-          },
-          {
-            path: URLS.ROUTE,
-            element: <Route />,
           },
           {
             path: URLS.SEARCH_TIMETABLE,

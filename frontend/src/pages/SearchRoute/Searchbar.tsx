@@ -15,8 +15,9 @@ import { useQuery } from "@tanstack/react-query";
 import React, { FC, FormEvent, useState } from "react";
 
 interface SearchbarProps {
-  setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>;
+  setSearchParams: React.Dispatch<React.SetStateAction<SearchParams | null>>;
 }
+
 const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
   const [source, setSource] = useState<Address | null>(null);
   const [destination, setDestination] = useState<Address | null>(null);
@@ -29,12 +30,17 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (isValidForm()) {
+    if (source && destination && time) {
       setSearchParams({
-        source: null,
-        destination: null,
-        time: new Date(),
-        mode: "opt",
+        sourceLat: source.latitude,
+        sourceLong: source.longitude,
+        destinationLat: destination.latitude,
+        destinationLong: destination.longitude,
+        departureTime: time.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        mode,
       });
     }
   };

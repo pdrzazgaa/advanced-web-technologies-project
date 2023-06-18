@@ -71,7 +71,7 @@ const FavouritePlacesMenu: FC = () => {
                   }}
                 >
                   <TripOriginIcon sx={{ color: "green.main", mr: 1 }} />
-                  <Typography>Ustaw tu punkt startowy</Typography>
+                  <Typography>Ustaw jako punkt startowy</Typography>
                 </Button>
                 <Button
                   sx={{ textTransform: "none", py: 0, height: "40px" }}
@@ -81,7 +81,7 @@ const FavouritePlacesMenu: FC = () => {
                   }}
                 >
                   <TripOriginIcon sx={{ color: "blue.main", mr: 1 }} />
-                  <Typography>Ustaw tu punkt końcowy</Typography>
+                  <Typography>Ustaw jako punkt końcowy</Typography>
                 </Button>
               </Stack>
             </Popover>

@@ -7,11 +7,7 @@ import com.company.project.services.ConnectionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,7 +15,7 @@ import java.util.List;
 public class ConnectionController {
     @Autowired
     ConnectionsService connectionsService;
-
+    @CrossOrigin("http://localhost:3000")
     @RequestMapping(value = "/connection", method = RequestMethod.GET)
     public ResponseEntity<List<ConnectionRouteDTO>> getBestConnections(@RequestParam double sourceLat, @RequestParam double sourceLong,
                                                                          @RequestParam double destinationLat, @RequestParam double destinationLong,
