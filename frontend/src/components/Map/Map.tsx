@@ -9,7 +9,7 @@ import SourceLocationMarker from "./SourceLocationMarker";
 import { CircularProgress, Typography } from "@mui/material";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { MapContainer, TileLayer, ZoomControl, Polyline, CircleMarker, Popup } from "react-leaflet";
 
 const DEFAULT_POSITION = [51.107883, 17.038538] as LatLngExpression;
@@ -19,10 +19,16 @@ const Map: FC = () => {
   const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const attribution =
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-  const [linePath, setLinePath] = useState<PathElem[] | null>(null);
+
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    setLinePath(path);
+    if (path !== null) {
+      setIsVisible(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 100);
+    }
   }, [path]);
 
   return (
@@ -38,8 +44,9 @@ const Map: FC = () => {
         <LocationButton />
         <LocationMarker />
         <SourceLocationMarker />
-        {linePath &&
-          getRouteStops(linePath).map(
+        {path &&
+          isVisible &&
+          getRouteStops(path).map(
             (
               {
                 stopNames,
@@ -65,7 +72,7 @@ const Map: FC = () => {
                     <Typography>{stopNames[0]}</Typography>
                   </Popup>
                 </CircleMarker>
-                {idx === linePath.length - 1 && (
+                {idx === path.length - 1 && (
                   <CircleMarker
                     center={pathCoords[1]}
                     radius={7}
