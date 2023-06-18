@@ -1,5 +1,4 @@
 import { useLocation } from "../../contexts";
-import { PathElem } from "../../types/Route";
 import { getRouteStops, stringToColor } from "../../utils/routes";
 import DestinationLocationMarker from "./DestinationLocationMarker";
 import LocationButton from "./LocationButton";

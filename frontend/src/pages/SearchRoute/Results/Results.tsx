@@ -32,6 +32,8 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
   const { setPath, path } = useLocation();
   const [connections, setConnections] = useState<Connection[] | null>(null);
   const [showLoading, setShowLoading] = useState(false);
+  const [currentConnection, setCurrentConnection] = useState<Connection | null>(null);
+
   const {
     data: foundConnections,
     isError,
@@ -47,11 +49,13 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
           setConnections([...connections, ...data]);
           if (!path) {
             setPath(connections[0].path);
+            setCurrentConnection(connections[0]);
           }
         } else {
           setConnections(data);
           if (!path) {
             setPath(data[0].path);
+            setCurrentConnection(data[0]);
           }
         }
       },
@@ -109,7 +113,9 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
               <Result
                 connection={connection}
                 key={idx}
+                selected={connection === currentConnection}
                 onClick={() => {
+                  setCurrentConnection(connection);
                   setPath(connection.path);
                 }}
               />

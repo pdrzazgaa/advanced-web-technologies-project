@@ -8,9 +8,10 @@ import React, { FC, useState, useEffect } from "react";
 interface ResultsProps {
   connection: Connection;
   onClick: () => void;
+  selected: boolean;
 }
 
-const Result: FC<ResultsProps> = ({ connection, onClick }) => {
+const Result: FC<ResultsProps> = ({ connection, onClick, selected }) => {
   const departureTime = new Date(connection.departureTime);
   const arrivalTime = new Date(connection.arrivalTime);
   const routeTime = getMinutesDifference(departureTime, arrivalTime);
@@ -23,7 +24,7 @@ const Result: FC<ResultsProps> = ({ connection, onClick }) => {
     const interval = setInterval(() => {
       const newLeftTime = getMinutesDifference(new Date(), departureTime);
       setLeftTime(newLeftTime);
-    }, 60000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [departureTime]);
@@ -31,7 +32,11 @@ const Result: FC<ResultsProps> = ({ connection, onClick }) => {
   const lines = getDistinctLines(connection);
 
   return (
-    <Paper elevation={5} sx={{ px: 2, py: 4 }} onClick={onClick}>
+    <Paper
+      elevation={5}
+      sx={{ px: 2, py: 4, backgroundColor: selected ? "#ddd" : "background.paper" }}
+      onClick={onClick}
+    >
       <Stack direction="row" gap={1} justifyContent="space-between" alignItems="center">
         <Stack alignItems="center" justifyContent="center" gap={1}>
           <Typography sx={{ fontSize: "14px", color: leftTime ? "text.primary" : "red.main" }}>
@@ -52,7 +57,7 @@ const Result: FC<ResultsProps> = ({ connection, onClick }) => {
           <Stack direction="row" gap={1}>
             {lines.map((line, idx) =>
               idx < 3 ? (
-                <Stack direction="row" key={line}>
+                <Stack direction="row" key={idx}>
                   <TramIcon />
                   <Typography
                     variant="body2"

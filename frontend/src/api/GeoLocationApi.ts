@@ -2,11 +2,6 @@
 import axios from "axios";
 import { LatLng, LatLngExpression } from "leaflet";
 
-// const SEARCH_SPECIFIER = "Wrocław, Poland";
-// if (!text.endsWith(SEARCH_SPECIFIER)) {
-//   text += `, ${SEARCH_SPECIFIER}`;
-// }
-
 const apiKey = process.env.REACT_APP_GEO_API_KEY as string;
 const apiURL = process.env.REACT_APP_GEO_API_URL as string;
 const Api = axios.create({

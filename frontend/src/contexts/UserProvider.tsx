@@ -4,6 +4,7 @@
 import { User } from "../types/User";
 import jwtDecode from "jwt-decode";
 import React, { useContext, useState, ReactNode } from "react";
+import { Mode } from "../types/Mode";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -14,6 +15,8 @@ interface UserContextValue {
   signIn: () => void;
   signOut: () => void;
   token: string;
+  mode: Mode;
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
 }
 
 declare global {
@@ -29,6 +32,7 @@ export const UserContext = React.createContext<UserContextValue | null>(null);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({ name: null });
   const [token, setToken] = useState("");
+  const [mode, setMode] = useState<Mode>("opt");
 
   const signInCallback = (res: any) => {
     setToken(res.credential);
@@ -54,7 +58,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, signIn, signOut, token }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, signIn, signOut, token, mode, setMode }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
