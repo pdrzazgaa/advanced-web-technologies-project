@@ -9,13 +9,13 @@ const UserPanelTemplate: FC = () => {
         zIndex: 1000,
         height: "90vh",
         width: "30vw",
-        minWidth: "400px",
+        minWidth: "450px",
         position: "absolute",
         left: "50px",
         top: "5vh",
         borderRadius: 4,
         backgroundColor: "primary.main",
-        overflowY: "hidden"
+        overflowY: "hidden",
       }}
     >
       <Outlet />

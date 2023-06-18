@@ -1,6 +1,6 @@
-
-import { Mode } from "fs";
 import { Address } from "./Address";
+import { Mode } from "fs";
+
 export interface SearchParams {
   sourceLat: number;
   sourceLong: number;

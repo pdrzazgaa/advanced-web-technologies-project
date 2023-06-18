@@ -1,14 +1,14 @@
 import { useLocation } from "../../contexts";
 import DestinationLocationMarker from "./DestinationLocationMarker";
+import LocationButton from "./LocationButton";
 import LocationMarker from "./LocationMarker";
-import SourceLocationMarker from "./SourceLocationMarker";
-import "leaflet/dist/leaflet.css";
 import "./Map.css";
+import SourceLocationMarker from "./SourceLocationMarker";
+import { CircularProgress } from "@mui/material";
+import { LatLngExpression } from "leaflet";
+import "leaflet/dist/leaflet.css";
 import React, { FC } from "react";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import LocationButton from "./LocationButton";
-import { LatLngExpression } from "leaflet";
-import { CircularProgress } from "@mui/material";
 
 const DEFAULT_POSITION = [51.107883, 17.038538] as LatLngExpression;
 

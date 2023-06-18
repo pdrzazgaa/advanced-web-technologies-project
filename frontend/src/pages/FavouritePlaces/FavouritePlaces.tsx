@@ -22,7 +22,7 @@ import { enqueueSnackbar } from "notistack";
 import React, { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MAX_SAVED_PLACES = 3;
+const MAX_SAVED_PLACES = 4;
 const FavouritePlaces: FC = () => {
   const navigate = useNavigate();
   const { user, token } = useUser();

@@ -23,7 +23,7 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams, setShowResults }) => {
   const [source, setSource] = useState<Address | null>(null);
   const [destination, setDestination] = useState<Address | null>(null);
   const [time, setTime] = useState<Date | null>(new Date());
-  const [mode, setMode] = useState<Mode>("fast");
+  const [mode, setMode] = useState<Mode>("opt");
   const { user } = useUser();
   const adapter = new AdapterDayjs();
   const { sourcePosition, destPosition } = useLocation();

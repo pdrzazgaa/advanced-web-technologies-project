@@ -1,6 +1,6 @@
+import TripOriginIcon from "@mui/icons-material/TripOrigin";
 import { Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
-import TripOriginIcon from "@mui/icons-material/TripOrigin";
 
 interface RouterHeaderProps {
   source: string;
@@ -13,11 +13,13 @@ const RouteHeader: FC<RouterHeaderProps> = ({ source, destination }) => {
   ];
 
   return (
-    <Stack gap={2} px={2}>
+    <Stack gap={2} px={4}>
       {locations.map((location, index) => (
         <Stack key={index} gap={2} direction="row">
           <TripOriginIcon sx={{ color: location.iconColor }} />
-          <Typography sx={{color: "text.secondary"}} noWrap>{location.text}</Typography>
+          <Typography sx={{ color: "text.secondary" }} noWrap>
+            {location.text}
+          </Typography>
         </Stack>
       ))}
     </Stack>

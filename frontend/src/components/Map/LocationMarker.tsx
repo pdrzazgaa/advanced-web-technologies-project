@@ -10,14 +10,14 @@ const LocationMarker: FC = () => {
     useLocation();
 
   const map = useMapEvents({
-   click(e) {
-    const mapContainer = e.target._container;
-    const clickedOnMap = e.originalEvent.target === mapContainer;
+    click(e) {
+      const mapContainer = e.target._container;
+      const clickedOnMap = e.originalEvent.target === mapContainer;
 
-    if (clickedOnMap) {
-      setPosition(e.latlng);
-    }
-  },
+      if (clickedOnMap) {
+        setPosition(e.latlng);
+      }
+    },
   });
 
   useEffect(() => {

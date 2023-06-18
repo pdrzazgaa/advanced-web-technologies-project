@@ -1,10 +1,10 @@
+import { useLocation } from "../../contexts";
 import "./Map.css";
-import "leaflet/dist/leaflet.css";
-import React, { FC } from "react";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { LocationEvent } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import React, { FC } from "react";
 import { useMapEvents } from "react-leaflet";
-import { useLocation } from "../../contexts";
 
 const LocationButton: FC = () => {
   const { setPosition } = useLocation();

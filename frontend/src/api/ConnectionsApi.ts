@@ -1,6 +1,6 @@
-import axios from "axios";
-import { SearchParams } from "../types/SearchParams";
 import { Connection } from "../types/Route";
+import { SearchParams } from "../types/SearchParams";
+import axios from "axios";
 
 const Api = axios.create({
   baseURL: process.env.REACT_APP_,

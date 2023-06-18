@@ -2,11 +2,11 @@ import BottomBar from "../../components/BottomBar";
 import TopBar from "../../components/TopBar";
 import { useLocation } from "../../contexts";
 import { Search } from "../../types/SearchParams";
+import Results from "./Results";
 import Searchbar from "./SearchResults";
 import { Stack } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
-import Results from "./Results";
+import React, { FC, useEffect, useState } from "react";
 
 const DEFAULT_POSITION = [51.107883, 17.038538] as LatLngExpression;
 const MAX_LOCATING_TIME = 6000;
@@ -39,12 +39,12 @@ const SearchRoute: FC = () => {
         })
         .catch(() => setPosition(DEFAULT_POSITION));
     }
-  }, [setPage, position, setPosition]);
+  }, []);
 
   return (
     <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
       {showResults && searchParams ? (
-        <Results returnToSearch={() => setShowResults(false)} searchParams={searchParams} />
+        <Results returnToSearch={() => setShowResults(false)} searchParams={searchParams} setSearchParams={setSearchParams}/>
       ) : (
         <>
           <TopBar />
