@@ -1,9 +1,9 @@
-import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
-import { MESSAGE } from "../../constants/messages";
-import { URLS } from "../../constants/urls";
-import { useLocation } from "../../contexts";
-import { useUser } from "../../contexts/UserProvider";
-import { FavouritePlace } from "../../types/FavouritePlace";
+import { FavouritePlacesApi } from "../../../api/FavouritePlacesApi";
+import { MESSAGE } from "../../../constants/messages";
+import { URLS } from "../../../constants/urls";
+import { useLocation } from "../../../contexts";
+import { useUser } from "../../../contexts/UserProvider";
+import { FavouritePlace } from "../../../types/FavouritePlace";
 import EditIcon from "@mui/icons-material/Edit";
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";

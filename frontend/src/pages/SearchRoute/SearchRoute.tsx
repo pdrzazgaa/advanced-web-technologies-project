@@ -1,21 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { ConnectionsApi } from "../../api/ConnectionsApi";
 import BottomBar from "../../components/BottomBar";
 import TopBar from "../../components/TopBar";
 import { useLocation } from "../../contexts";
-import { SearchParams } from "../../types/SearchParams";
-import Searchbar from "./Searchbar";
+import { Search } from "../../types/SearchParams";
+import Searchbar from "./SearchResults";
 import { Stack } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
+import Results from "./Results";
 
 const DEFAULT_POSITION = [51.107883, 17.038538] as LatLngExpression;
 const MAX_LOCATING_TIME = 6000;
 
 const SearchRoute: FC = () => {
-  const [searchParams, setSearchParams] = useState<SearchParams | null>(null);
+  const [searchParams, setSearchParams] = useState<Search | null>(null);
   const { setPage, position, setPosition } = useLocation();
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(true);
 
   useEffect(() => {
     setPage("route");
@@ -40,33 +39,19 @@ const SearchRoute: FC = () => {
         })
         .catch(() => setPosition(DEFAULT_POSITION));
     }
-  }, []);
-
-  const {
-    data: places,
-    isError,
-    isLoading,
-  } = useQuery(
-    ["get-source-address", searchParams],
-    async () => {
-      if (searchParams) {
-        setShowResults(true);
-        const address = await ConnectionsApi.getAll(searchParams);
-        return address;
-      }
-      return null;
-    },
-    {
-      enabled: Boolean(searchParams),
-      onSuccess: (data) => console.log(data),
-    },
-  );
+  }, [setPage, position, setPosition]);
 
   return (
     <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
-      <TopBar />
-      <Searchbar setSearchParams={setSearchParams} />
-      <BottomBar activeButton="route" />
+      {showResults && searchParams ? (
+        <Results returnToSearch={() => setShowResults(false)} searchParams={searchParams} />
+      ) : (
+        <>
+          <TopBar />
+          <Searchbar setSearchParams={setSearchParams} setShowResults={setShowResults} />
+          <BottomBar activeButton="route" />
+        </>
+      )}
     </Stack>
   );
 };

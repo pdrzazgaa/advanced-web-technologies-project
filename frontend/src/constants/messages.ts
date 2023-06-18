@@ -4,4 +4,5 @@ export const MESSAGE = {
   DELETE_PLACE_ERROR: "Wystąpił błąd podczas usuwania miejsca",
   ADD_PLACE_SUCCESS: "Pomyślnie dodano miejsce do ulubionych",
   ADD_PLACE_ERROR: "Wystąpił błąd poczas dodawania miejsca",
+  SEARCH_ROUTES_ERROR: "Wystąpił błąd podczas szukania tras",
 };

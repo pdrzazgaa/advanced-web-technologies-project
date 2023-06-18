@@ -15,6 +15,7 @@ const UserPanelTemplate: FC = () => {
         top: "5vh",
         borderRadius: 4,
         backgroundColor: "primary.main",
+        overflowY: "hidden"
       }}
     >
       <Outlet />

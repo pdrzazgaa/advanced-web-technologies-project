@@ -1,10 +1,10 @@
-import { GeoLocationApi } from "../../api/GeoLocationApi";
-import AsyncAutoselect from "../../components/AsyncAutoselect";
-import { useLocation } from "../../contexts";
-import { useUser } from "../../contexts/UserProvider";
-import { Address } from "../../types/Address";
-import { Mode } from "../../types/Mode";
-import { SearchParams } from "../../types/SearchParams";
+import { GeoLocationApi } from "../../../api/GeoLocationApi";
+import AsyncAutoselect from "../../../components/AsyncAutoselect";
+import { useLocation } from "../../../contexts";
+import { useUser } from "../../../contexts/UserProvider";
+import { Address } from "../../../types/Address";
+import { Mode } from "../../../types/Mode";
+import { Search } from "../../../types/SearchParams";
 import FavouritePlacesMenu from "./FavouritePlacesMenu";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import TripOriginIcon from "@mui/icons-material/TripOrigin";
@@ -15,10 +15,11 @@ import { useQuery } from "@tanstack/react-query";
 import React, { FC, FormEvent, useState } from "react";
 
 interface SearchbarProps {
-  setSearchParams: React.Dispatch<React.SetStateAction<SearchParams | null>>;
+  setSearchParams: React.Dispatch<React.SetStateAction<Search | null>>;
+  setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
+const Searchbar: FC<SearchbarProps> = ({ setSearchParams, setShowResults }) => {
   const [source, setSource] = useState<Address | null>(null);
   const [destination, setDestination] = useState<Address | null>(null);
   const [time, setTime] = useState<Date | null>(new Date());
@@ -32,16 +33,12 @@ const Searchbar: FC<SearchbarProps> = ({ setSearchParams }) => {
     e.preventDefault();
     if (source && destination && time) {
       setSearchParams({
-        sourceLat: source.latitude,
-        sourceLong: source.longitude,
-        destinationLat: destination.latitude,
-        destinationLong: destination.longitude,
-        departureTime: time.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        source,
+        destination,
+        time,
         mode,
       });
+      setShowResults(true);
     }
   };
 
