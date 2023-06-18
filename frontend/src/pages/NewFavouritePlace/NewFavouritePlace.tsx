@@ -1,15 +1,17 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
-import { IconButton, Stack, TextField, Button, Typography } from "@mui/material";
-import TopBar from "../../components/TopBar";
-import { URLS } from "../../constants/urls";
-import { useUser } from "../../contexts/UserProvider";
-import { Clear } from "@mui/icons-material";
-import AsyncAutoselect from "../../components/AsyncAutoselect";
-import { Address } from "../../types/Address";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { enqueueSnackbar } from "notistack";
-import { MESSAGE } from "../../constants/messages";
 import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
+import { GeoLocationApi } from "../../api/GeoLocationApi";
+import AsyncAutoselect from "../../components/AsyncAutoselect";
+import TopBar from "../../components/TopBar";
+import { MESSAGE } from "../../constants/messages";
+import { URLS } from "../../constants/urls";
+import { useLocation } from "../../contexts";
+import { useUser } from "../../contexts/UserProvider";
+import { Address } from "../../types/Address";
+import { Clear } from "@mui/icons-material";
+import { IconButton, Stack, TextField, Button, Typography } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewFavouritePlace: FC = () => {
@@ -24,6 +26,29 @@ const NewFavouritePlace: FC = () => {
       navigate(URLS.FAVOURITE_PLACES);
     }
   }, [user.name, navigate]);
+
+  const { setPage, favPlacePosition, setPosition } = useLocation();
+
+  useEffect(() => {
+    setPage("newFavPlace");
+  }, []);
+
+  useQuery(
+    ["get-fav-address", favPlacePosition],
+    async () => {
+      if (favPlacePosition) {
+        const address = await GeoLocationApi.getAddress(favPlacePosition);
+        return address;
+      }
+      return null;
+    },
+    {
+      enabled: Boolean(favPlacePosition),
+      onSuccess: (data: Address) => {
+        setAddress(data);
+      },
+    },
+  );
 
   const addMutation = useMutation(
     (address: Address) =>
@@ -101,7 +126,12 @@ const NewFavouritePlace: FC = () => {
                 />
                 <AsyncAutoselect
                   address={address}
-                  onAddressSearch={setAddress}
+                  onAddressSearch={(data: Address | null) => {
+                    setAddress(data);
+                    if (data) {
+                      setPosition([data.latitude, data.longitude]);
+                    }
+                  }}
                   queryKey="favourite-address"
                   label="Adres"
                 />

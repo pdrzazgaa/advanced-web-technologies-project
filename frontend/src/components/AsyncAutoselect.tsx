@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { GeoLocationApi } from "../api/GeoLocationApi";
 import { Address } from "../types/Address";
+import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import { Autocomplete, TextField, CircularProgress } from "@mui/material";
-import { GeoLocationApi } from "../api/GeoLocationApi";
+import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 
 interface AsyncAutoselectProps {
   address: Address | null;
@@ -27,12 +27,11 @@ const AsyncAutoselect: FC<AsyncAutoselectProps> = ({
 
   const query = useQuery(
     [queryKey, { addressInput }],
-    () => GeoLocationApi.searchAddress(`wrocław, ${  addressInput}`),
+    () => GeoLocationApi.searchAddress(`wrocław, ${addressInput}`),
     {
       enabled: false,
       onSuccess: (data) => {
         setLoading(false);
-        console.log(data);
         setAddressOptions(data);
       },
     },

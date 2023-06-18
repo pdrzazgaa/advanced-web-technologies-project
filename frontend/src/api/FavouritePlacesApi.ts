@@ -17,12 +17,12 @@ export class FavouritePlacesApi {
 
   async getAll() {
     const { data: places } = await this.api.get<FavouritePlace[]>(URL);
+    console.log("getting");
     return places;
   }
 
   async addNewPlace(place: FavouritePlaceParams) {
     const { data } = await this.api.post(URL, place);
-    console.log(data);
     return data;
   }
 

@@ -42,7 +42,6 @@ export class GeoLocationApi {
     } else {
       [lat, lng] = coordinates as [number, number];
     }
-    console.log(lat, lng);
     const { data } = await Api.get("/reverse", {
       params: { lat, lon: lng, apiKey },
     });

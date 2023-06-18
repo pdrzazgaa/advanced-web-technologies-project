@@ -1,19 +1,23 @@
-import { Typography, Button, Stack } from "@mui/material";
 import { useLocation } from "../../contexts";
-import { divIcon } from "leaflet";
-import React, { FC } from "react";
-import { Marker, useMapEvents, Popup } from "react-leaflet";
 import TripOriginIcon from "@mui/icons-material/TripOrigin";
+import { Typography, Button, Stack } from "@mui/material";
+import { divIcon } from "leaflet";
+import React, { FC, useEffect } from "react";
+import { Marker, useMapEvents, Popup } from "react-leaflet";
 
 const LocationMarker: FC = () => {
-  const { position, setPosition, setSourcePosition, setDestPosition } = useLocation();
+  const { position, setPosition, setSourcePosition, setDestPosition, setFavPlacePosition, page } =
+    useLocation();
 
   const map = useMapEvents({
     click(e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
     },
   });
+
+  useEffect(() => {
+    map.flyTo(position, map.getZoom());
+  }, [position]);
 
   const pinIcon = divIcon({
     html: `
@@ -28,28 +32,45 @@ const LocationMarker: FC = () => {
 
   return (
     <Marker icon={pinIcon} position={position}>
-      <Popup>
-        <Stack>
-          <Button
-            sx={{ textTransform: "none", py: 0, height: "40px" }}
-            onClick={() => {
-              setSourcePosition(position), map.closePopup();
-            }}
-          >
-            <TripOriginIcon sx={{ color: "green.main", mr: 1 }} />
-            <Typography>Ustaw tu punkt startowy</Typography>
-          </Button>
-          <Button
-            sx={{ textTransform: "none", py: 0, height: "40px" }}
-            onClick={() => {
-              setDestPosition(position), map.closePopup();
-            }}
-          >
-            <TripOriginIcon sx={{ color: "blue.main", mr: 1 }} />
-            <Typography>Ustaw tu punkt końcowy</Typography>
-          </Button>
-        </Stack>
-      </Popup>
+      {page != "else" && (
+        <Popup>
+          <Stack>
+            {page == "route" && (
+              <>
+                <Button
+                  sx={{ textTransform: "none", py: 0, height: "40px" }}
+                  onClick={() => {
+                    setSourcePosition(position), map.closePopup();
+                  }}
+                >
+                  <TripOriginIcon sx={{ color: "green.main", mr: 1 }} />
+                  <Typography>Ustaw tu punkt startowy</Typography>
+                </Button>
+                <Button
+                  sx={{ textTransform: "none", py: 0, height: "40px" }}
+                  onClick={() => {
+                    setDestPosition(position), map.closePopup();
+                  }}
+                >
+                  <TripOriginIcon sx={{ color: "blue.main", mr: 1 }} />
+                  <Typography>Ustaw tu punkt końcowy</Typography>
+                </Button>
+              </>
+            )}
+            {page == "newFavPlace" && (
+              <Button
+                sx={{ textTransform: "none", py: 0, height: "40px" }}
+                onClick={() => {
+                  setFavPlacePosition(position), map.closePopup();
+                }}
+              >
+                <TripOriginIcon sx={{ color: "blue.main", mr: 1 }} />
+                <Typography>Ustaw tu adres</Typography>
+              </Button>
+            )}
+          </Stack>
+        </Popup>
+      )}
     </Marker>
   );
 };

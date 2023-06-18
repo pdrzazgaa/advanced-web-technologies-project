@@ -30,7 +30,9 @@ const TopBar: FC<TopBarProps> = ({ showReturnButton = false, returnPath = URLS.S
       ) : (
         <></>
       )}
-      <Typography variant="h2" sx={{color: "text.secondary"}}>HowToGetTo</Typography>
+      <Typography variant="h2" sx={{ color: "text.secondary" }}>
+        HowToGetTo
+      </Typography>
       <Stack direction="row">
         <GoogleAuthButton />
         <UserAvatar />

@@ -2,6 +2,7 @@ import { FavouritePlacesApi } from "../../api/FavouritePlacesApi";
 import TopBar from "../../components/TopBar";
 import { MESSAGE } from "../../constants/messages";
 import { URLS } from "../../constants/urls";
+import { useLocation } from "../../contexts";
 import { useUser } from "../../contexts/UserProvider";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,8 +26,13 @@ const MAX_SAVED_PLACES = 3;
 const FavouritePlaces: FC = () => {
   const navigate = useNavigate();
   const { user, token } = useUser();
+  const { setPage } = useLocation();
   const queryClient = useQueryClient();
   const Api = new FavouritePlacesApi(token);
+
+  useEffect(() => {
+    setPage("else");
+  }, []);
 
   useEffect(() => {
     if (user.name == null) {
@@ -104,7 +110,7 @@ const FavouritePlaces: FC = () => {
                 <Stack direction="row">
                   <Typography>{place.name}</Typography>
                   <Button sx={{ ml: "auto", mb: 1 }} onClick={() => onDeleteClick(place.id)}>
-                    <DeleteIcon sx={{ color: "background.paper" }} />
+                    <DeleteIcon sx={{ color: "primary.main" }} />
                   </Button>
                 </Stack>
                 <Divider />
