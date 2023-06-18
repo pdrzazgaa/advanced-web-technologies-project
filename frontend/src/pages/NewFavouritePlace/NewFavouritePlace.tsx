@@ -27,10 +27,11 @@ const NewFavouritePlace: FC = () => {
     }
   }, [user.name, navigate]);
 
-  const { setPage, favPlacePosition, setPosition } = useLocation();
+  const { setPage, favPlacePosition, setPosition, setPath } = useLocation();
 
   useEffect(() => {
     setPage("newFavPlace");
+    setPath(null);
   }, []);
 
   useQuery(

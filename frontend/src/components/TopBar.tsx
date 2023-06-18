@@ -1,4 +1,5 @@
 import { URLS } from "../constants/urls";
+import { useLocation } from "../contexts";
 import GoogleAuthButton from "./GoogleAuthButton";
 import UserAvatar from "./UserAvatar";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -17,6 +18,8 @@ const TopBar: FC<TopBarProps> = ({
   returnPath = URLS.SEARCH_ROUTE,
   onArrowClick,
 }) => {
+  const { setPath } = useLocation();
+
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between" px={4} mb={2}>
       {showReturnButton && (
@@ -29,6 +32,7 @@ const TopBar: FC<TopBarProps> = ({
             alignItems: "center",
             color: "text.secondary",
           }}
+          onClick={() => setPath(null)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: 50 }} />
         </Link>

@@ -4,10 +4,11 @@ import { Stack } from "@mui/material";
 import React, { FC, useEffect } from "react";
 
 const SearchTimetable: FC = () => {
-  const { setPage } = useLocation();
+  const { setPage, setPath } = useLocation();
 
   useEffect(() => {
     setPage("else");
+    setPath(null);
   }, []);
 
   return (

@@ -13,13 +13,13 @@ const MAX_LOCATING_TIME = 6000;
 
 const SearchRoute: FC = () => {
   const [searchParams, setSearchParams] = useState<Search | null>(null);
-  const { setPage, position, setPosition } = useLocation();
+  const { setPage, position, setPosition, setPath } = useLocation();
   const [showResults, setShowResults] = useState(true);
 
   useEffect(() => {
     setPage("route");
+    setPath(null);
     if (!position) {
-      console.log("posiition undefined");
       navigator.permissions
         .query({ name: "geolocation" })
         .then((status) => {
@@ -44,7 +44,14 @@ const SearchRoute: FC = () => {
   return (
     <Stack spacing={2} pt={4} display="flex" flexDirection="column" height="100%">
       {showResults && searchParams ? (
-        <Results returnToSearch={() => setShowResults(false)} searchParams={searchParams} setSearchParams={setSearchParams}/>
+        <Results
+          returnToSearch={() => {
+            setShowResults(false);
+            setPath(null);
+          }}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
       ) : (
         <>
           <TopBar />

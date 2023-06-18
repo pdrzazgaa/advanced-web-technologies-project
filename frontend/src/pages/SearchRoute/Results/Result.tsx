@@ -1,22 +1,23 @@
 import { Connection } from "../../../types/Route";
+import { getDistinctLines } from "../../../utils/routes";
+import { formatMinutes, getMinutesDifference, formatHour } from "../../../utils/time";
+import TramIcon from "@mui/icons-material/Tram";
 import { Paper, Typography, Stack } from "@mui/material";
 import React, { FC, useState, useEffect } from "react";
-import { formatMinutes, getMinutesDifference, formatHour } from "../../../utils/time";
-import { getDistinctLines } from "../../../utils/routes";
-import TramIcon from "@mui/icons-material/Tram";
 
 interface ResultsProps {
   connection: Connection;
+  onClick: () => void;
 }
 
-const Result: FC<ResultsProps> = ({ connection }) => {
+const Result: FC<ResultsProps> = ({ connection, onClick }) => {
   const departureTime = new Date(connection.departureTime);
   const arrivalTime = new Date(connection.arrivalTime);
   const routeTime = getMinutesDifference(departureTime, arrivalTime);
   const routeTimeFormatted = `${formatMinutes(routeTime)} min`;
 
   const [leftTime, setLeftTime] = useState(getMinutesDifference(new Date(), departureTime));
-  const leftTimeInfo = leftTime ? "Odjazd za:" : "Odjechał";
+  const leftTimeInfo = leftTime > 0 ? "Odjazd za:" : "Odjechał";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,9 +29,9 @@ const Result: FC<ResultsProps> = ({ connection }) => {
   }, [departureTime]);
 
   const lines = getDistinctLines(connection);
-  console.log(lines);
+
   return (
-    <Paper elevation={5} sx={{ px: 2, py: 4 }}>
+    <Paper elevation={5} sx={{ px: 2, py: 4 }} onClick={onClick}>
       <Stack direction="row" gap={1} justifyContent="space-between" alignItems="center">
         <Stack alignItems="center" justifyContent="center" gap={1}>
           <Typography sx={{ fontSize: "14px", color: leftTime ? "text.primary" : "red.main" }}>
@@ -47,20 +48,25 @@ const Result: FC<ResultsProps> = ({ connection }) => {
             </Typography>
           </Stack>
         </Stack>
-        <Stack gap={3}>
+        <Stack gap={1} sx={{ textAlign: "center" }}>
           <Stack direction="row" gap={1}>
-            {lines.map((line) => (
-              <Stack direction="row">
-                <TramIcon />
-                <Typography
-                  variant="body2"
-                  sx={{ border: "1px solid grey", borderRadius: 2, px: 1 }}
-                >
-                  {line}
-                </Typography>
-              </Stack>
-            ))}
+            {lines.map((line, idx) =>
+              idx < 3 ? (
+                <Stack direction="row" key={line}>
+                  <TramIcon />
+                  <Typography
+                    variant="body2"
+                    sx={{ border: "1px solid grey", borderRadius: 2, px: 1 }}
+                  >
+                    {line}
+                  </Typography>
+                </Stack>
+              ) : (
+                <></>
+              ),
+            )}
           </Stack>
+          {lines.length > 3 ? <Typography>...</Typography> : <></>}
           <Stack direction="row" gap={1}>
             <Typography
               sx={{

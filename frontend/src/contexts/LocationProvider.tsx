@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Page } from "../types/Page";
+import { PathElem } from "../types/Route";
 import { LatLngExpression } from "leaflet";
 import React, { useContext, useState, ReactNode } from "react";
 
@@ -18,6 +19,8 @@ interface LocationContextValue {
   setPage: React.Dispatch<React.SetStateAction<Page>>;
   favPlacePosition: LatLngExpression | null;
   setFavPlacePosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;
+  path: PathElem[] | null;
+  setPath: React.Dispatch<React.SetStateAction<PathElem[] | null>>;
 }
 
 export const LocationContext = React.createContext<LocationContextValue | null>(null);
@@ -28,6 +31,7 @@ export const LocationProvider: React.FC<LocationProviderProps> = ({ children }) 
   const [destPosition, setDestPosition] = useState<LatLngExpression | null>(null);
   const [favPlacePosition, setFavPlacePosition] = useState<LatLngExpression | null>(null);
   const [page, setPage] = useState<Page>("route");
+  const [path, setPath] = useState<PathElem[] | null>(null);
 
   return (
     <LocationContext.Provider
@@ -42,6 +46,8 @@ export const LocationProvider: React.FC<LocationProviderProps> = ({ children }) 
         setPage,
         favPlacePosition,
         setFavPlacePosition,
+        path,
+        setPath,
       }}
     >
       {children}

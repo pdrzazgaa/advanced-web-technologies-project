@@ -17,7 +17,6 @@ export class FavouritePlacesApi {
 
   async getAll() {
     const { data: places } = await this.api.get<FavouritePlace[]>(URL);
-    console.log("getting");
     return places;
   }
 

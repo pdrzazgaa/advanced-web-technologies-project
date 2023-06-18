@@ -26,12 +26,13 @@ const MAX_SAVED_PLACES = 4;
 const FavouritePlaces: FC = () => {
   const navigate = useNavigate();
   const { user, token } = useUser();
-  const { setPage } = useLocation();
+  const { setPage, setPath } = useLocation();
   const queryClient = useQueryClient();
   const Api = new FavouritePlacesApi(token);
 
   useEffect(() => {
     setPage("else");
+    setPath(null);
   }, []);
 
   useEffect(() => {

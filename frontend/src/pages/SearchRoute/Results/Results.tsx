@@ -1,6 +1,7 @@
 import { ConnectionsApi } from "../../../api/ConnectionsApi";
 import TopBar from "../../../components/TopBar";
 import { MESSAGE } from "../../../constants/messages";
+import { useLocation } from "../../../contexts";
 import { Connection } from "../../../types/Route";
 import { Search } from "../../../types/SearchParams";
 import { formatLocalTime } from "../../../utils/time";
@@ -28,6 +29,7 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
       mode,
     };
   };
+  const { setPath, path } = useLocation();
   const [connections, setConnections] = useState<Connection[] | null>(null);
   const [showLoading, setShowLoading] = useState(false);
   const {
@@ -41,7 +43,17 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
       enabled: Boolean(searchParams),
       onSuccess: (data) => {
         setShowLoading(false);
-        connections ? setConnections([...connections, ...data]) : setConnections(data);
+        if (connections) {
+          setConnections([...connections, ...data]);
+          if (!path) {
+            setPath(connections[0].path);
+          }
+        } else {
+          setConnections(data);
+          if (!path) {
+            setPath(data[0].path);
+          }
+        }
       },
     },
   );
@@ -94,7 +106,13 @@ const Results: FC<ResultsProps> = ({ returnToSearch, searchParams, setSearchPara
         ) : connections && connections.length ? (
           <>
             {connections.map((connection, idx) => (
-              <Result connection={connection} key={idx} />
+              <Result
+                connection={connection}
+                key={idx}
+                onClick={() => {
+                  setPath(connection.path);
+                }}
+              />
             ))}
             {showLoading ? (
               <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
