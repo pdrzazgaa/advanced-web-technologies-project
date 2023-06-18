@@ -37,6 +37,7 @@ const LocationButton: FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        cursor: "pointer",
       }}
     >
       <MyLocationIcon sx={{ fontSize: 20 }} />

@@ -10,9 +10,14 @@ const LocationMarker: FC = () => {
     useLocation();
 
   const map = useMapEvents({
-    click(e) {
+   click(e) {
+    const mapContainer = e.target._container;
+    const clickedOnMap = e.originalEvent.target === mapContainer;
+
+    if (clickedOnMap) {
       setPosition(e.latlng);
-    },
+    }
+  },
   });
 
   useEffect(() => {
@@ -74,7 +79,9 @@ const LocationMarker: FC = () => {
         </Popup>
       )}
     </Marker>
-  ) : <></>;
+  ) : (
+    <></>
+  );
 };
 
 export default LocationMarker;
