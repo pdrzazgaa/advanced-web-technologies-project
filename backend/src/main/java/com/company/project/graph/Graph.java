@@ -24,7 +24,7 @@ public class Graph {
             Stop arrivalStop = new Stop(connectionProjection.getArrival_name(),
                     connectionProjection.getArrival_lat(), connectionProjection.getArrival_long());
             Stop departureStop = new Stop(connectionProjection.getDeparture_name(),
-                    connectionProjection.getDeparture_lat(), connectionProjection.getDeparture_lat());
+                    connectionProjection.getDeparture_lat(), connectionProjection.getDeparture_long());
             Connection connection = new Connection(departureStop, arrivalStop,
                     new Line(connectionProjection.getLine()), connectionProjection.getDeparture_time(),
                     connectionProjection.getArrival_time());
