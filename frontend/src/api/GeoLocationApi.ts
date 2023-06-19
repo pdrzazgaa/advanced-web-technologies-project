@@ -2,8 +2,9 @@
 import axios from "axios";
 import { LatLng, LatLngExpression } from "leaflet";
 
-const apiKey = process.env.REACT_APP_GEO_API_KEY as string;
-const apiURL = process.env.REACT_APP_GEO_API_URL as string;
+const apiURL = "https://api.geoapify.com/v1/geocode" as string;
+const apiKey = "2a49c3c4d96341288e07a17c23549f76" as string;
+
 const Api = axios.create({
   baseURL: apiURL,
   timeout: 4800,

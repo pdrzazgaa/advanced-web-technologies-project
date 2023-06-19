@@ -25,7 +25,8 @@ declare global {
   }
 }
 
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+// const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+const CLIENT_ID = "1041308792303-l9dj3bgmb5pgolf52ods8uet3n6jnp7s.apps.googleusercontent.com";
 
 export const UserContext = React.createContext<UserContextValue | null>(null);
 
